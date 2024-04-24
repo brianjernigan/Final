@@ -5,9 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
-  - Box
-  - Coin
-  - Spike
+  - Sphere
   layers:
   - Default
   - TransparentFX
