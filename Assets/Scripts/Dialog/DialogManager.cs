@@ -86,17 +86,29 @@ public class DialogManager : MonoBehaviour
             ExitDialogMode();
             return;
         }
-        
+    
         if (_isTyping)
         {
             StopAllCoroutines();
             _dialogText.text = _sentences.Peek();
             _isTyping = false;
-            _sentences.Dequeue();
             return;
         }
 
-        StartCoroutine(TypeSentence(_sentences.Dequeue()));
+        if (_dialogText.text == _sentences.Peek())
+        {
+            _sentences.Dequeue();
+            if (_sentences.Count == 0)
+            {
+                ExitDialogMode();
+                return;
+            }
+            StartCoroutine(TypeSentence(_sentences.Peek()));
+        }
+        else
+        {
+            StartCoroutine(TypeSentence(_sentences.Peek()));
+        }
     }
 
     private IEnumerator TypeSentence(string sentence)
