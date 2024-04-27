@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class DialogData
+public class DialogLines
 {
-    public List<string> dialogLines = new();
+    public List<string> lines = new();
 }

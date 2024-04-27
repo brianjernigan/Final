@@ -8,13 +8,13 @@ public class DialogTrigger : MonoBehaviour
 {
     [SerializeField] private DialogScriptableObject _dialogScript;
 
-    private DialogData _currentDialogData;
+    private DialogLines _currentDialogData;
 
     private void Awake()
     {
-        _currentDialogData = new DialogData
-        {
-            dialogLines = new List<string>(_dialogScript.dialogData.dialogLines)
+        _currentDialogData = new DialogLines()
+        { 
+            lines = new List<string>(_dialogScript.dialogData.lines)
         };
     }
     
@@ -22,7 +22,7 @@ public class DialogTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            DialogManager.Instance.StartDialog(_currentDialogData.dialogLines);
+            DialogManager.Instance.StartDialog(_currentDialogData.lines);
         }
     }
 }

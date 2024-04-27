@@ -92,6 +92,7 @@ public class DialogManager : MonoBehaviour
             StopAllCoroutines();
             _dialogText.text = _sentences.Peek();
             _isTyping = false;
+            _sentences.Dequeue();
             return;
         }
 
