@@ -24,6 +24,14 @@ public class DialogManager : MonoBehaviour
     private Queue<string> _sentences;
     private bool _isTyping;
 
+    private DialogType _currentDialog;
+
+    public event Action OnLevelOneDialogFinished;
+    public event Action OnLevelTwoDialogFinished;
+    public event Action OnLevelThreeDialogFinished;
+
+    private string _currentSentence;
+
     private void Awake()
     {
         if (Instance == null)
@@ -66,7 +74,7 @@ public class DialogManager : MonoBehaviour
         _fpc.enabled = true;
     }
 
-    public void StartDialog(List<string> script)
+    public void StartDialog(List<string> script, DialogType levelDialog)
     {
         EnterDialogMode();
         _sentences.Clear();
@@ -75,42 +83,41 @@ public class DialogManager : MonoBehaviour
         {
             _sentences.Enqueue(line);
         }
-        
+
+        _currentDialog = levelDialog;
         DisplayNextSentence();
     }
 
     private void DisplayNextSentence()
     {
-        if (_sentences.Count == 0)
-        {
-            ExitDialogMode();
-            return;
-        }
-    
+        _currentSentence = _sentences.Peek();
+        
         if (_isTyping)
         {
             StopAllCoroutines();
-            _dialogText.text = _sentences.Peek();
+            _dialogText.text = _currentSentence;
             _isTyping = false;
-            return;
         }
-
-        if (_dialogText.text == _sentences.Peek())
+        else if (_dialogText.text == _currentSentence)
         {
             _sentences.Dequeue();
+            
             if (_sentences.Count == 0)
             {
                 ExitDialogMode();
-                return;
+                TriggerDialogFinishedEvent();
             }
-            StartCoroutine(TypeSentence(_sentences.Peek()));
+            else
+            {
+                StartCoroutine(TypeSentence(_sentences.Peek()));
+            }
         }
         else
         {
             StartCoroutine(TypeSentence(_sentences.Peek()));
         }
     }
-
+    
     private IEnumerator TypeSentence(string sentence)
     {
         _dialogText.text = "";
@@ -123,5 +130,15 @@ public class DialogManager : MonoBehaviour
         }
 
         _isTyping = false;
+    }
+
+    private void TriggerDialogFinishedEvent()
+    {
+        switch (_currentDialog)
+        {
+            case DialogType.LevelOneDialog:
+                OnLevelOneDialogFinished?.Invoke();
+                break;
+        }
     }
 }
