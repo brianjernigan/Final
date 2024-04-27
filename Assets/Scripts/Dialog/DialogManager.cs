@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using FPS_Starter;
@@ -65,10 +66,9 @@ public class DialogManager : MonoBehaviour
         _fpc.enabled = true;
     }
 
-    public void StartDialog(string[] script)
+    public void StartDialog(List<string> script)
     {
         EnterDialogMode();
-        
         _sentences.Clear();
 
         foreach (var line in script)
@@ -106,7 +106,7 @@ public class DialogManager : MonoBehaviour
         foreach (var letter in sentence.ToCharArray())
         {
             _dialogText.text += letter;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.075f);
         }
 
         _isTyping = false;

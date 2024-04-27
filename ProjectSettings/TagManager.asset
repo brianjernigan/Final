@@ -5,8 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
-  - BattleZone
-  - DialogZone
+  - BossTrigger
+  - BattleTrigger
+  - DialogTrigger
   layers:
   - Default
   - TransparentFX

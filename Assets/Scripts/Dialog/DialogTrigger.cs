@@ -6,13 +6,23 @@ using UnityEngine;
 
 public class DialogTrigger : MonoBehaviour
 {
-    [SerializeField] private DialogScripts _dialogScript;
+    [SerializeField] private DialogScriptableObject _dialogScript;
 
+    private DialogData _currentDialogData;
+
+    private void Awake()
+    {
+        _currentDialogData = new DialogData
+        {
+            dialogLines = new List<string>(_dialogScript.dialogData.dialogLines)
+        };
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            DialogManager.Instance.StartDialog(_dialogScript.sentences);
+            DialogManager.Instance.StartDialog(_currentDialogData.dialogLines);
         }
     }
 }

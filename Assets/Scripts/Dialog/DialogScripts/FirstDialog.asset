@@ -12,6 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2e559047bfed24e82e62576a1a24d7, type: 3}
   m_Name: FirstDialog
   m_EditorClassIdentifier: 
-  sentences:
-  - Hello?
-  - Is this thing on?
+  dialogData:
+    dialogLines:
+    - '"Hello? Is this thing on?'
+    - '"Oh, it''s you! I''m glad you finally made it."'
+    - '"We are in grave danger here."'
+    - '"The computers have taken over."'
+    - '"You are our last hope."'
+    - '"Here, you will need this on your way."'
+    - '"I will upload the data to your internal server."'
+    - .....................
+    - 'You downloaded the ability: Photon Blast!'
+    - '"Photon Blast is a powerful ability that sends shockwaves through enemy computers."'
+    - '"I think I see one over there. Why don''t you go try it out?"'
