@@ -8,12 +8,15 @@ using UnityEngine.SceneManagement;
 public class DialogTrigger : MonoBehaviour
 {
     [SerializeField] private DialogScriptableObject _dialogScript;
-
+    [SerializeField] private GameObject _levelOneQuestArrow;
+    [SerializeField] private GameObject _player;
+    
     private void OnEnable()
     {
         if (DialogManager.Instance != null)
         {
             DialogManager.Instance.OnLevelOneDialogFinished += HandleLevelOneDialogFinished;
+            _player.GetComponent<PlayerAbilities>().OnPhotonBlastAcquired += HandleLevelOneDialogFinished;
         }
     }
 
@@ -35,6 +38,7 @@ public class DialogTrigger : MonoBehaviour
 
     private void HandleLevelOneDialogFinished()
     {
-        Debug.Log("level one dialog finished");
+        _levelOneQuestArrow.SetActive(true);
+        _player.GetComponent<PlayerAbilities>().HasPhotonBlast = true;
     }
 }
