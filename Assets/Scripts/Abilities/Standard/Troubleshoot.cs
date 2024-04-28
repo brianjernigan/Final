@@ -12,14 +12,14 @@ public class Troubleshoot : Ability
         IsUnlocked = true;
     }
 
-    public override void Activate(GameObject player, GameObject target)
+    public override void Activate(ICharacter player, ICharacter target)
     {
-        player.GetComponent<PlayerHealth>().IsDefending = false;
+        player.IsDefending = false;
         
         Debug.Log("Troubleshoot");
         if (UsesRemaining == 0) return;
 
-        player.GetComponent<PlayerHealth>().CurrentHealth += 5;
+        player.Heal(5);
         
         EndTurn();
     }

@@ -9,9 +9,9 @@ public class NanoSwarm : Ability
     {
     }
 
-    public override void Activate(GameObject player, GameObject target)
+    public override void Activate(ICharacter player, ICharacter target)
     {
-        player.GetComponent<PlayerHealth>().IsDefending = false;
+        player.IsDefending = false;
         
         Debug.Log("Nano Swarm");
         if (UsesRemaining == 0) return;

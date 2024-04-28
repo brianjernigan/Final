@@ -27,8 +27,7 @@ public class BattleManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] private GameObject _player;
     private FirstPersonController _fpc;
-    private PlayerAbilities _pa;
-    private PlayerHealth _ph;
+    private Player _playerComponent;
 
     [Header("Enemy")] 
     [SerializeField] private GameObject _enemy;
@@ -62,9 +61,8 @@ public class BattleManager : MonoBehaviour
     private void Initialize()
     {
         _fpc = _player.GetComponent<FirstPersonController>();
-        _pa = _player.GetComponent<PlayerAbilities>();
-        _ph = _player.GetComponent<PlayerHealth>();
         _enemyScript = _enemy.GetComponent<Enemy>();
+        _playerComponent = _player.GetComponent<Player>();
         _currentBattleState = BattleState.PlayerTurn;
     }
 
@@ -106,10 +104,10 @@ public class BattleManager : MonoBehaviour
 
     private void InitializeButtons(int buttonIndex)
     {
-        _abilityButtons[buttonIndex].SetActive(_pa.Abilities[buttonIndex].IsUnlocked);
-        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => _pa.Abilities[buttonIndex].Activate(_player, _enemy));
-        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], _pa.Abilities[buttonIndex]));
-        _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = _pa.Abilities[buttonIndex].ToString();
+        _abilityButtons[buttonIndex].SetActive(_playerComponent.Abilities[buttonIndex].IsUnlocked);
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => _playerComponent.Abilities[buttonIndex].Activate(_player.GetComponent<ICharacter>(), _enemy.GetComponent<ICharacter>()));
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], _playerComponent.Abilities[buttonIndex]));
+        _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = _playerComponent.Abilities[buttonIndex].ToString();
     }
 
     private void UpdateButtonText(GameObject button, Ability ability)
@@ -127,7 +125,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleRoutine()
     {
-        while (!_ph.IsDead && !_enemyScript.IsDead)
+        while (!_playerComponent.IsDead && !_enemyScript.IsDead)
         {
             if (_currentBattleState == BattleState.PlayerTurn)
             {
@@ -143,14 +141,14 @@ public class BattleManager : MonoBehaviour
                 EnemyHasTakenTurn = false;
                 DeactivateButtons();
                 yield return new WaitForSeconds(2.5f);
-                _enemy.GetComponent<Enemy>().TakeTurn();
+                _enemyScript.TakeTurn();
                 yield return new WaitUntil(() => EnemyHasTakenTurn);
                 UpdateActionText(_enemy, EnemyMove);
                 _currentBattleState = BattleState.PlayerTurn;
             }
         }
 
-        if (_ph.IsDead)
+        if (_playerComponent.IsDead)
         {
             Debug.Log("Player loses");
             _currentBattleState = BattleState.Win;
@@ -178,15 +176,5 @@ public class BattleManager : MonoBehaviour
         }
 
         _updateText.text = $"{turnTakerString} used: {action}!";
-    }
-
-    private void PlayerTurn()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void EnemyTurn()
-    {
-        throw new NotImplementedException();
     }
 }

@@ -10,14 +10,14 @@ public class LaserBlast : Ability
         IsUnlocked = true;
     }
 
-    public override void Activate(GameObject player, GameObject target)
+    public override void Activate(ICharacter player, ICharacter target)
     {
-        player.GetComponent<PlayerHealth>().IsDefending = false;
+        player.IsDefending = false;
         
         Debug.Log("laser blast");
         if (UsesRemaining == 0) return;
 
-        target.GetComponent<Enemy>().TakeDamage(5);
+        player.Attack(target, 10);
 
         EndTurn();
     }
