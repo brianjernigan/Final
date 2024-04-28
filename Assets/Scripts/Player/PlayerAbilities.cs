@@ -30,8 +30,6 @@ public class PlayerAbilities : MonoBehaviour
     
     private void AddAbilities()
     {
-        InitializeAbilities();
-
         Abilities.Add(_laserBlast);
         Abilities.Add(_energyShield);
         Abilities.Add(_hack);
@@ -52,8 +50,9 @@ public class PlayerAbilities : MonoBehaviour
         DialogManager.Instance.OnLevelOneDialogFinished -= UnlockElectroPulse;
     }
 
-    private void Start()
+    private void Awake()
     {
+        InitializeAbilities();
         AddAbilities();
     }
 

@@ -12,6 +12,11 @@ public class LaserBlast : Ability
 
     public override void Activate(GameObject target)
     {
+        Debug.Log("laser beam");
         if (UsesRemaining == 0) return;
+
+        target.GetComponent<Enemy>().TakeDamage(5);
+
+        BattleManager.Instance.PlayerHasTakenTurn = true;
     }
 }

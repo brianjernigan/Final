@@ -28,6 +28,7 @@ public class DialogTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && SceneManager.GetActiveScene().name == "LevelOne")
         {
+            GameStateManager.Instance.ChangeState(GameState.Dialog);
             DialogManager.Instance.StartDialog(_levelOneScript.lines, DialogType.LevelOneDialog);
         }
     }

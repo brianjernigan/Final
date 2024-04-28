@@ -14,8 +14,8 @@ public abstract class Ability
     protected Ability(string name, int maxUses)
     {
         Name = name;
-        UsesRemaining = MaxUses;
         MaxUses = maxUses;
+        UsesRemaining = MaxUses;
     }
 
     public override string ToString()

@@ -12,6 +12,7 @@ public class EnergyShield : Ability
 
     public override void Activate(GameObject target)
     {
+        Debug.Log("Energy Shield");
         if (UsesRemaining == 0) return;
     }
 }

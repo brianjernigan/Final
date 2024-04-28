@@ -47,12 +47,30 @@ public class GameStateManager : MonoBehaviour
         {
             case GameState.Exploration:
                 Debug.Log("exploration");
+                HandleMouseBehavior(state);
                 break;
             case GameState.Dialog:
                 Debug.Log("dialog");
+                HandleMouseBehavior(state);
                 break;
             case GameState.Battle:
                 Debug.Log("battle");
+                HandleMouseBehavior(state);
+                break;
+        }
+    }
+
+    private void HandleMouseBehavior(GameState currentState)
+    {
+        switch (currentState)
+        {
+            case GameState.Dialog or GameState.Battle:
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
+                break;
+            case GameState.Exploration:
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = false;
                 break;
         }
     }
