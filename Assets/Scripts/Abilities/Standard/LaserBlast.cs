@@ -10,13 +10,15 @@ public class LaserBlast : Ability
         IsUnlocked = true;
     }
 
-    public override void Activate(GameObject target)
+    public override void Activate(GameObject player, GameObject target)
     {
-        Debug.Log("laser beam");
+        player.GetComponent<PlayerHealth>().IsDefending = false;
+        
+        Debug.Log("laser blast");
         if (UsesRemaining == 0) return;
 
         target.GetComponent<Enemy>().TakeDamage(5);
 
-        BattleManager.Instance.PlayerHasTakenTurn = true;
+        EndTurn();
     }
 }

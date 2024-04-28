@@ -36,5 +36,6 @@ public class DialogTrigger : MonoBehaviour
     private void HandleLevelOneDialogFinished()
     {
         _questArrow.SetActive(true);
+        GameStateManager.Instance.ChangeState(GameState.Exploration);
     }
 }

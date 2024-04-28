@@ -9,8 +9,16 @@ public class ElectroPulse : Ability
     {
     }
 
-    public override void Activate(GameObject target)
+    public override void Activate(GameObject player, GameObject target)
     {
+        player.GetComponent<PlayerHealth>().IsDefending = false;
+        
+        Debug.Log("Electro Pulse");
         if (UsesRemaining == 0) return;
+        
+        // TODO
+        // Implement move mechanics
+        
+        EndTurn();
     }
 }

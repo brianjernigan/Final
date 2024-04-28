@@ -18025,8 +18025,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.7254372, z: 11.71531}
-  m_Center: {x: 0, y: 9.049696, z: 0.48364782}
+  m_Size: {x: 5.910492, y: 1.7254372, z: 11.71531}
+  m_Center: {x: 2.455246, y: 9.049696, z: 0.48364782}
 --- !u!114 &566749586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18040,7 +18040,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 1985540838}
-  _enemy: {fileID: 57378770}
 --- !u!1 &576778971
 GameObject:
   m_ObjectHideFlags: 0
@@ -19046,8 +19045,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.7254372, z: 11.71531}
-  m_Center: {x: 0, y: 9.049696, z: 0.48364782}
+  m_Size: {x: 3.2586913, y: 1.7254372, z: 11.71531}
+  m_Center: {x: -1.1293457, y: 9.049696, z: 0.48364782}
 --- !u!4 &821195011
 Transform:
   m_ObjectHideFlags: 0
@@ -19721,7 +19720,7 @@ MonoBehaviour:
   - {fileID: 8616446}
   - {fileID: 2135932998}
   - {fileID: 1649082443}
-  _updateText: {fileID: 0}
+  _updateText: {fileID: 372906072}
   _player: {fileID: 1985540838}
   _enemy: {fileID: 57378770}
 --- !u!850595691 &1286415862

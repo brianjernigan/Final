@@ -32,8 +32,11 @@ public class BattleManager : MonoBehaviour
 
     [Header("Enemy")] 
     [SerializeField] private GameObject _enemy;
+    private Enemy _enemyScript;
     
     private BattleState _currentBattleState;
+    public string PlayerMove { get; set; }
+    public string EnemyMove { get; set; }
 
     public bool PlayerHasTakenTurn { get; set; }
     public bool EnemyHasTakenTurn { get; set; }
@@ -61,6 +64,7 @@ public class BattleManager : MonoBehaviour
         _fpc = _player.GetComponent<FirstPersonController>();
         _pa = _player.GetComponent<PlayerAbilities>();
         _ph = _player.GetComponent<PlayerHealth>();
+        _enemyScript = _enemy.GetComponent<Enemy>();
         _currentBattleState = BattleState.PlayerTurn;
     }
 
@@ -92,27 +96,38 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void PopulateAbilityButtons(GameObject target)
+    private void PopulateAbilityButtons()
     {
         for (var i = 0; i < _abilityButtons.Length; i++)
         {
-            _abilityButtons[i].SetActive(_pa.Abilities[i].IsUnlocked);
-            var buttonIndex = i;
-            _abilityButtons[i].GetComponent<Button>().onClick.AddListener(() => _pa.Abilities[buttonIndex].Activate(target));
+            InitializeButtons(i);
         }
     }
 
-    public void StartBattle(GameObject target)
+    private void InitializeButtons(int buttonIndex)
+    {
+        _abilityButtons[buttonIndex].SetActive(_pa.Abilities[buttonIndex].IsUnlocked);
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => _pa.Abilities[buttonIndex].Activate(_player, _enemy));
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], _pa.Abilities[buttonIndex]));
+        _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = _pa.Abilities[buttonIndex].ToString();
+    }
+
+    private void UpdateButtonText(GameObject button, Ability ability)
+    {
+        button.GetComponentInChildren<TMP_Text>().text = ability.ToString();
+    }
+    
+    public void StartBattle()
     {
         EnterBattleMode();
-        PopulateAbilityButtons(target);
+        PopulateAbilityButtons();
         _currentBattleState = BattleState.PlayerTurn;
         StartCoroutine(BattleRoutine());
     }
 
     private IEnumerator BattleRoutine()
     {
-        while (true)
+        while (!_ph.IsDead && !_enemyScript.IsDead)
         {
             if (_currentBattleState == BattleState.PlayerTurn)
             {
@@ -120,19 +135,49 @@ public class BattleManager : MonoBehaviour
                 PlayerHasTakenTurn = false;
                 ActivateButtons();
                 yield return new WaitUntil(() => PlayerHasTakenTurn);
+                UpdateActionText(_player, PlayerMove);
                 _currentBattleState = BattleState.EnemyTurn;
             } else if (_currentBattleState == BattleState.EnemyTurn)
             {
                 Debug.Log("Enemy's turn");
                 EnemyHasTakenTurn = false;
                 DeactivateButtons();
+                yield return new WaitForSeconds(2.5f);
                 _enemy.GetComponent<Enemy>().TakeTurn();
                 yield return new WaitUntil(() => EnemyHasTakenTurn);
+                UpdateActionText(_enemy, EnemyMove);
                 _currentBattleState = BattleState.PlayerTurn;
             }
         }
 
+        if (_ph.IsDead)
+        {
+            Debug.Log("Player loses");
+            _currentBattleState = BattleState.Win;
+            ExitBattleMode();
+        } else if (_enemyScript.IsDead)
+        {
+            Debug.Log("Player win");
+            _currentBattleState = BattleState.Loss;
+            ExitBattleMode();
+        }
+
         yield return null;
+    }
+
+    private void UpdateActionText(GameObject turnTaker, string action)
+    {
+        var turnTakerString = "";
+
+        if (turnTaker == _player)
+        {
+            turnTakerString = "Player";
+        } else if (turnTaker == _enemy)
+        {
+            turnTakerString = "Enemy";
+        }
+
+        _updateText.text = $"{turnTakerString} used: {action}!";
     }
 
     private void PlayerTurn()

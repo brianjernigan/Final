@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
 
     public int MaxHealth { get; set; } = 100;
     public int CurrentHealth { get; set; }
+    public bool IsDefending { get; set; }
     public bool IsDead { get; set; }
 
     private void Awake()
@@ -19,6 +20,12 @@ public class PlayerHealth : MonoBehaviour
     
     public void TakeDamage(int amount)
     {
+        if (IsDefending)
+        {
+            amount /= 2;
+            IsDefending = false;
+        }
+        
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
         UpdateHealthText();
         

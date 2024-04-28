@@ -7,8 +7,9 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private TMP_Text _enemyHealthText;
     
-    public int MaxHealth { get; private set; } = 100;
+    public int MaxHealth { get; private set; } = 10;
     public int CurrentHealth { get; set; }
+    public bool IsDead { get; set; }
     private bool _isDefending;
 
     [SerializeField] private Material _damageMat;
@@ -46,18 +47,21 @@ public class Enemy : MonoBehaviour
     protected void Attack(GameObject target)
     {
         target.GetComponent<PlayerHealth>().TakeDamage(10);
+        BattleManager.Instance.EnemyMove = "Attack";
         BattleManager.Instance.EnemyHasTakenTurn = true;
     }
 
     protected void Defend()
     {
         _isDefending = true;
+        BattleManager.Instance.EnemyMove = "Defend";
         BattleManager.Instance.EnemyHasTakenTurn = true;
     }
 
     protected void Heal(int amount)
     {
         CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
+        BattleManager.Instance.EnemyMove = $"Heal ({amount})";
         BattleManager.Instance.EnemyHasTakenTurn = true;
     }
 
@@ -85,6 +89,7 @@ public class Enemy : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log("enemy died");
+        IsDead = true;
     }
 
     protected IEnumerator FlashDamageColor()

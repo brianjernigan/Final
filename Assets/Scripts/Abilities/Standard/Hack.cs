@@ -10,8 +10,16 @@ public class Hack : Ability
         IsUnlocked = true;
     }
 
-    public override void Activate(GameObject target)
+    public override void Activate(GameObject player, GameObject target)
     {
+        player.GetComponent<PlayerHealth>().IsDefending = false;
+        
+        Debug.Log("Hack");
         if (UsesRemaining == 0) return;
+        
+        // TODO
+        // Implement move mechanics
+
+        EndTurn();
     }
 }
