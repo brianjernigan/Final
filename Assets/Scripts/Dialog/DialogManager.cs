@@ -14,7 +14,6 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private GameObject _dialogPanel;
     [SerializeField] private TMP_Text _dialogText;
     [SerializeField] private Button _continueButton;
-    [SerializeField] private GameObject _hud;
 
     [Header("Player")] 
     [SerializeField] private GameObject _player;
@@ -61,7 +60,6 @@ public class DialogManager : MonoBehaviour
     private void EnterDialogMode()
     {
         _dialogPanel.SetActive(true);
-        _hud.SetActive(false);
         _ls.enabled = false;
         _fpc.enabled = false;
     }
@@ -69,7 +67,6 @@ public class DialogManager : MonoBehaviour
     private void ExitDialogMode()
     {
         _dialogPanel.SetActive(false);
-        _hud.SetActive(true);
         _ls.enabled = true;
         _fpc.enabled = true;
     }

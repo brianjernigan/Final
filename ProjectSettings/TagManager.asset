@@ -9,6 +9,9 @@ TagManager:
   - BattleTrigger
   - DialogTrigger
   - QuestArrow
+  - BattlePanel
+  - DialogPanel
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -9,13 +9,9 @@ public class BattleTrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && _player.GetComponent<PlayerAbilities>().HasPhotonBlast)
+        if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("battle!");
-        }
-        else if (other.gameObject.CompareTag("Player") && !_player.GetComponent<PlayerAbilities>().HasPhotonBlast)
-        {
-            Debug.Log("does not have photon blast");
+            BattleManager.Instance.StartBattle();
         }
     }
 }
