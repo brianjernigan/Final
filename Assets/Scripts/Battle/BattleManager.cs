@@ -11,7 +11,6 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject _battlePanel;
 
     [SerializeField] private GameObject _player;
-    private LaserShooter _ls;
     private FirstPersonController _fpc;
     private PlayerAbilities _pa;
 
@@ -37,7 +36,6 @@ public class BattleManager : MonoBehaviour
 
     private void Initialize()
     {
-        _ls = _player.GetComponent<LaserShooter>();
         _fpc = _player.GetComponent<FirstPersonController>();
         _pa = _player.GetComponent<PlayerAbilities>();
     }
@@ -45,7 +43,6 @@ public class BattleManager : MonoBehaviour
     private void EnterBattleMode()
     {
         _battlePanel.SetActive(true);
-        _ls.enabled = false;
         _fpc.enabled = false;
         
         PopulateAbilityButtons();
@@ -54,7 +51,6 @@ public class BattleManager : MonoBehaviour
     private void ExitBattleMode()
     {
         _battlePanel.SetActive(false);
-        _ls.enabled = true;
         _fpc.enabled = true;
     }
 
@@ -62,14 +58,7 @@ public class BattleManager : MonoBehaviour
     {
         for (var i = 0; i < _abilityButtons.Length; i++)
         {
-            if (_pa.Abilities[i].IsUnlocked)
-            {
-                _abilityButtons[i].SetActive(true);
-            }
-            else
-            {
-                _abilityButtons[i].SetActive(false);
-            }
+            _abilityButtons[i].SetActive(_pa.Abilities[i].IsUnlocked);
         }
     }
 

@@ -6,6 +6,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum DialogType
+{
+    LevelOneDialog,
+    LevelTwoDialog,
+    LevelThreeDialog
+}
+
 public class DialogManager : MonoBehaviour
 {
     public static DialogManager Instance { get; private set; }
@@ -17,7 +24,6 @@ public class DialogManager : MonoBehaviour
 
     [Header("Player")] 
     [SerializeField] private GameObject _player;
-    private LaserShooter _ls;
     private FirstPersonController _fpc;
 
     private Queue<string> _sentences;
@@ -47,7 +53,6 @@ public class DialogManager : MonoBehaviour
     private void Initialize()
     {
         _sentences = new Queue<string>();
-        _ls = _player.GetComponent<LaserShooter>();
         _fpc = _player.GetComponent<FirstPersonController>();
     }
     
@@ -60,14 +65,12 @@ public class DialogManager : MonoBehaviour
     private void EnterDialogMode()
     {
         _dialogPanel.SetActive(true);
-        _ls.enabled = false;
         _fpc.enabled = false;
     }
 
     private void ExitDialogMode()
     {
         _dialogPanel.SetActive(false);
-        _ls.enabled = true;
         _fpc.enabled = true;
     }
 
