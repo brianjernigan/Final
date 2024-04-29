@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class BattleTrigger : MonoBehaviour
+public class BossTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {

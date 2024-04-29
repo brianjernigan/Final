@@ -5,6 +5,7 @@ using FPS_Starter;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum BattleState
@@ -27,11 +28,10 @@ public class BattleManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] private GameObject _player;
     private FirstPersonController _fpc;
-    private Player _playerComponent;
 
     [Header("Enemy")] 
     [SerializeField] private GameObject _enemy;
-    private Enemy _enemyScript;
+    private Enemy _enemyComponent;
     
     private BattleState _currentBattleState;
     public string PlayerMove { get; set; }
@@ -61,9 +61,8 @@ public class BattleManager : MonoBehaviour
     private void Initialize()
     {
         _fpc = _player.GetComponent<FirstPersonController>();
-        _enemyScript = _enemy.GetComponent<Enemy>();
-        _playerComponent = _player.GetComponent<Player>();
-        _currentBattleState = BattleState.PlayerTurn;
+        _enemyComponent = _enemy.GetComponent<Enemy>();
+        // _currentBattleState = BattleState.PlayerTurn;
     }
 
     private void EnterBattleMode()
@@ -104,10 +103,10 @@ public class BattleManager : MonoBehaviour
 
     private void InitializeButtons(int buttonIndex)
     {
-        _abilityButtons[buttonIndex].SetActive(_playerComponent.Abilities[buttonIndex].IsUnlocked);
-        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => _playerComponent.Abilities[buttonIndex].Activate(_player.GetComponent<ICharacter>(), _enemy.GetComponent<ICharacter>()));
-        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], _playerComponent.Abilities[buttonIndex]));
-        _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = _playerComponent.Abilities[buttonIndex].ToString();
+        _abilityButtons[buttonIndex].SetActive(Player.Instance.Abilities[buttonIndex].IsUnlocked);
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => Player.Instance.Abilities[buttonIndex].Activate(_player.GetComponent<ICharacter>(), _enemy.GetComponent<ICharacter>()));
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], Player.Instance.Abilities[buttonIndex]));
+        _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = Player.Instance.Abilities[buttonIndex].ToString();
     }
 
     private void UpdateButtonText(GameObject button, Ability ability)
@@ -119,13 +118,13 @@ public class BattleManager : MonoBehaviour
     {
         EnterBattleMode();
         PopulateAbilityButtons();
-        _currentBattleState = BattleState.PlayerTurn;
+        // _currentBattleState = BattleState.PlayerTurn;
         StartCoroutine(BattleRoutine());
     }
 
     private IEnumerator BattleRoutine()
     {
-        while (!_playerComponent.IsDead && !_enemyScript.IsDead)
+        while (!Player.Instance.IsDead && !_enemyComponent.IsDead)
         {
             if (_currentBattleState == BattleState.PlayerTurn)
             {
@@ -141,22 +140,24 @@ public class BattleManager : MonoBehaviour
                 EnemyHasTakenTurn = false;
                 DeactivateButtons();
                 yield return new WaitForSeconds(2.5f);
-                _enemyScript.TakeTurn();
+                _enemyComponent.TakeTurn();
                 yield return new WaitUntil(() => EnemyHasTakenTurn);
-                UpdateActionText(_enemy, EnemyMove);
+                UpdateActionText(_enemy, EnemyMove); 
                 _currentBattleState = BattleState.PlayerTurn;
             }
         }
 
-        if (_playerComponent.IsDead)
+        if (Player.Instance.IsDead)
         {
             Debug.Log("Player loses");
-            _currentBattleState = BattleState.Win;
+            // _currentBattleState = BattleState.Loss;
+            GameStateManager.Instance.CurrentState = GameState.Exploration;
             ExitBattleMode();
-        } else if (_enemyScript.IsDead)
+        } else if (_enemyComponent.IsDead)
         {
             Debug.Log("Player win");
-            _currentBattleState = BattleState.Loss;
+            // _currentBattleState = BattleState.Win;
+            GameStateManager.Instance.CurrentState = GameState.Exploration;
             ExitBattleMode();
         }
 

@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour, ICharacter
     private MeshRenderer _meshRenderer;
 
     [SerializeField] private GameObject _player;
-    
+
     public string Name { get; set; }
     public int MaxHealth { get; set; } = 20;
     public int CurrentHealth { get; set; }
@@ -23,7 +23,6 @@ public class Enemy : MonoBehaviour, ICharacter
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _originalMat = _meshRenderer.material;
-
         CurrentHealth = MaxHealth;
     }
     

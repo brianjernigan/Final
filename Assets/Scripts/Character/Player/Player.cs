@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, ICharacter 
 {
+    public static Player Instance { get; private set; }
+    
     public string Name { get; set; }
     public int MaxHealth { get; set; } = 100;
     public int CurrentHealth { get; set; }
@@ -68,6 +70,19 @@ public class Player : MonoBehaviour, ICharacter
     }
 
     private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
     {
         InitializeAbilities();
         AddAbilities();

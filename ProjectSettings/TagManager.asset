@@ -12,6 +12,7 @@ TagManager:
   - BattlePanel
   - DialogPanel
   - Enemy
+  - BossDoor
   layers:
   - Default
   - TransparentFX

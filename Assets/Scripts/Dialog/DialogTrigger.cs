@@ -36,7 +36,7 @@ public class DialogTrigger : MonoBehaviour
     private void HandleLevelOneDialogFinished()
     {
         _questArrow.SetActive(true);
-        _player.GetComponent<Player>().UnlockAbility(1);
+        Player.Instance.UnlockAbility(1);
         GameStateManager.Instance.ChangeState(GameState.Exploration);
     }
 }
