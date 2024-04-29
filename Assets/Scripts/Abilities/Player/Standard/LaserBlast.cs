@@ -15,11 +15,9 @@ public class LaserBlast : PlayerAbility
 
     public override void Activate(ICharacter player, ICharacter target)
     {
-        player.IsDefending = false;
-        
-        Debug.Log("laser blast");
         if (UsesRemaining == 0) return;
-
+        
+        player.IsDefending = false;
         target.TakeDamage(10);
 
         EndTurn();

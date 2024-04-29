@@ -15,11 +15,9 @@ public class ElectroPulse : PlayerAbility
 
     public override void Activate(ICharacter player, ICharacter target)
     {
-        player.IsDefending = false;
-        
-        Debug.Log("Electro Pulse");
         if (UsesRemaining == 0) return;
         
+        player.IsDefending = false;
         // TODO
         // Implement move mechanics
         

@@ -10,6 +10,8 @@ public interface ICharacter
     int CurrentHealth { get; set; }
     bool IsDead { get; set; }
     bool IsDefending { get; set; }
+    bool IsStunned { get; set; }
     
     void TakeDamage(int amount);
+    void ApplyStatusEffect();
 }

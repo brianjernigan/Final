@@ -15,7 +15,6 @@ public class EnergyShield : PlayerAbility
 
     public override void Activate(ICharacter player, ICharacter enemy)
     {
-        Debug.Log("Energy Shield");
         if (UsesRemaining == 0) return;
 
         player.IsDefending = true;

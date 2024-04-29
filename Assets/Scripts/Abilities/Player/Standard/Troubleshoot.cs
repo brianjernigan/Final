@@ -17,11 +17,9 @@ public class Troubleshoot : PlayerAbility
 
     public override void Activate(ICharacter player, ICharacter target)
     {
-        player.IsDefending = false;
-        
-        Debug.Log("Troubleshoot");
         if (UsesRemaining == 0) return;
-
+        
+        player.IsDefending = false;
         player.CurrentHealth = Mathf.Max(player.MaxHealth, player.CurrentHealth + 5);
         
         EndTurn();

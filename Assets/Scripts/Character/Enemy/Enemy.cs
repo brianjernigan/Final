@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour, ICharacter
 {
@@ -21,12 +23,13 @@ public class Enemy : MonoBehaviour, ICharacter
     public int CurrentHealth { get; set; }
     public bool IsDead { get; set; }
     public bool IsDefending { get; set; }
+    public bool IsStunned { get; set; }
 
     public List<EnemyAbility> Abilities { get; set; } = new();
 
-    private Attack _attack = new Attack();
-    private Defend _defend = new Defend();
-    private Heal _heal = new Heal();
+    private Attack _attack = new();
+    private Defend _defend = new();
+    private Heal _heal = new();
     
     private void InitializeComponents()
     {
@@ -50,24 +53,6 @@ public class Enemy : MonoBehaviour, ICharacter
         CurrentHealth = MaxHealth;
     }
     
-    public void TakeDamage(int amount)
-    {
-        if (IsDefending)
-        {
-            amount /= 2;
-            IsDefending = false;
-        }
-        
-        CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-        UpdateHealthText(_healthText);
-        StartCoroutine(FlashDamageColor());
-
-        if (CurrentHealth <= 0)
-        {
-            IsDead = true;
-        }
-    }
-    
     public void TakeTurn()
     {
         var randomNumber = Random.Range(0, Abilities.Count);
@@ -88,4 +73,31 @@ public class Enemy : MonoBehaviour, ICharacter
     {
         textObject.GetComponent<TMP_Text>().text = $"{Name} Health: {CurrentHealth}";
     }
+    
+    #region ICharacterImplementation
+
+    public void TakeDamage(int amount)
+    {
+        if (IsDefending)
+        {
+            amount /= 2;
+            IsDefending = false;
+        }
+        
+        CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
+        UpdateHealthText(_healthText);
+        StartCoroutine(FlashDamageColor());
+
+        if (CurrentHealth <= 0)
+        {
+            IsDead = true;
+        }
+    }
+
+    public void ApplyStatusEffect()
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,17 +13,18 @@ public class Player : MonoBehaviour, ICharacter
     public int CurrentHealth { get; set; }
     public bool IsDead { get; set; }
     public bool IsDefending { get; set; }
+    public bool IsStunned { get; set; }
 
     public List<PlayerAbility> Abilities { get; set; } = new();
 
-    private LaserBlast _laserBlast = new LaserBlast();
-    private EnergyShield _energyShield = new EnergyShield();
-    private Hack _hack = new Hack();
-    private Troubleshoot _troubleshoot = new Troubleshoot();
-    private ElectroPulse _electroPulse = new ElectroPulse();
-    private NanoSwarm _nanoSwarm = new NanoSwarm();
-    private Incognito _incognito = new Incognito();
-    private Mydoom _mydoom = new Mydoom();
+    private LaserBlast _laserBlast = new();
+    private EnergyShield _energyShield = new();
+    private Hack _hack = new();
+    private Troubleshoot _troubleshoot = new();
+    private ElectroPulse _electroPulse = new();
+    private NanoSwarm _nanoSwarm = new();
+    private Incognito _incognito = new();
+    private Mydoom _mydoom = new();
 
     [SerializeField] private GameObject _healthText;
     
@@ -76,7 +78,14 @@ public class Player : MonoBehaviour, ICharacter
         transform.position = new Vector3(6, 0, -8);
         CurrentHealth = MaxHealth;
     }
+
+    public void UpdateHealthText(GameObject textObject)
+    {
+        textObject.GetComponent<TMP_Text>().text = $"{Name} Health: {CurrentHealth}";
+    }
     
+    #region ICharacterImplementation
+
     public void TakeDamage(int amount)
     {
         if (IsDefending)
@@ -94,9 +103,10 @@ public class Player : MonoBehaviour, ICharacter
         }
     }
 
-    public void UpdateHealthText(GameObject textObject)
+    public void ApplyStatusEffect()
     {
-        textObject.GetComponent<TMP_Text>().text = $"{Name} Health: {CurrentHealth}";
+        throw new NotImplementedException();
     }
-    
+
+    #endregion
 }
