@@ -47,21 +47,21 @@ public class Enemy : MonoBehaviour, ICharacter
     public void Attack(ICharacter target, int damageAmount)
     {
         target.TakeDamage(2);
-        BattleManager.Instance.EnemyMove = "Attack";
+        BattleManager.Instance.EnemyMoveName = "Attack";
         BattleManager.Instance.EnemyHasTakenTurn = true;
     }
 
     public void Defend()
     {
         IsDefending = true;
-        BattleManager.Instance.EnemyMove = "Defend";
+        BattleManager.Instance.EnemyMoveName = "Defend";
         BattleManager.Instance.EnemyHasTakenTurn = true;
     }
 
     public void Heal(int amount)
     {
         CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
-        BattleManager.Instance.EnemyMove = $"Heal ({amount})";
+        BattleManager.Instance.EnemyMoveName = $"Heal ({amount})";
         BattleManager.Instance.EnemyHasTakenTurn = true;
     }
 
@@ -77,15 +77,15 @@ public class Enemy : MonoBehaviour, ICharacter
 
         switch (randomNumber)
         {
-            case (1):
+            case 1:
                 Attack(_player.GetComponent<ICharacter>(), 5);
                 UpdateHealthText(_healthText);
                 break;
-            case (2):
+            case 2:
                 Defend();
                 UpdateHealthText(_healthText);
                 break;
-            case (3):
+            case 3:
                 Heal(5);
                 UpdateHealthText(_healthText);
                 break;

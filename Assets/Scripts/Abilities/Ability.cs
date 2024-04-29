@@ -15,7 +15,7 @@ public abstract class Ability
     protected void EndTurn()
     {
         UsesRemaining--;
-        BattleManager.Instance.PlayerMove = Name;
+        BattleManager.Instance.PlayerMoveName = Name;
         BattleManager.Instance.PlayerHasTakenTurn = true;
     }
 

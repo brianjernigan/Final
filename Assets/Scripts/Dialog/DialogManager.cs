@@ -139,6 +139,12 @@ public class DialogManager : MonoBehaviour
             case DialogType.LevelOneDialog:
                 OnLevelOneDialogFinished?.Invoke();
                 break;
+            case DialogType.LevelTwoDialog:
+                OnLevelTwoDialogFinished?.Invoke();
+                break;
+            case DialogType.LevelThreeDialog:
+                OnLevelThreeDialogFinished?.Invoke();
+                break;
         }
     }
 }

@@ -10,18 +10,20 @@ public class DialogTrigger : MonoBehaviour
 {
     [SerializeField] private DialogScriptableObject _levelOneScript;
     [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject _questArrow;
+    [SerializeField] private GameObject _questArrowOne;
     
     private void OnEnable()
     {
-        if (DialogManager.Instance == null) return;
         DialogManager.Instance.OnLevelOneDialogFinished += HandleLevelOneDialogFinished;
+        DialogManager.Instance.OnLevelTwoDialogFinished += HandleLevelTwoDialogFinished;
+        DialogManager.Instance.OnLevelThreeDialogFinished += HandleLevelThreeDialogFinished;
     }
 
     private void OnDisable()
     {
-        if (DialogManager.Instance == null) return;
         DialogManager.Instance.OnLevelOneDialogFinished -= HandleLevelOneDialogFinished;
+        DialogManager.Instance.OnLevelTwoDialogFinished -= HandleLevelTwoDialogFinished;
+        DialogManager.Instance.OnLevelThreeDialogFinished -= HandleLevelThreeDialogFinished;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,8 +37,18 @@ public class DialogTrigger : MonoBehaviour
 
     private void HandleLevelOneDialogFinished()
     {
-        _questArrow.SetActive(true);
+        _questArrowOne.SetActive(true);
         Player.Instance.UnlockAbility(1);
         GameStateManager.Instance.ChangeState(GameState.Exploration);
+    }
+
+    private void HandleLevelTwoDialogFinished()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleLevelThreeDialogFinished()
+    {
+        throw new NotImplementedException();
     }
 }

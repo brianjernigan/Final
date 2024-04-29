@@ -12,8 +12,17 @@ public enum BattleState
 {
     PlayerTurn,
     EnemyTurn,
-    Win,
-    Loss
+}
+
+public enum BattleType
+{
+    LevelOneBattle,
+    LevelOneBoss,
+    LevelTwoBattle,
+    LevelTwoBoss,
+    LevelThreeBattle,
+    LevelThreeBoss,
+    Lost
 }
 
 public class BattleManager : MonoBehaviour
@@ -34,11 +43,23 @@ public class BattleManager : MonoBehaviour
     private Enemy _enemyComponent;
     
     private BattleState _currentBattleState;
-    public string PlayerMove { get; set; }
-    public string EnemyMove { get; set; }
-
+    
+    public string PlayerMoveName { get; set; }
+    public string EnemyMoveName { get; set; }
     public bool PlayerHasTakenTurn { get; set; }
     public bool EnemyHasTakenTurn { get; set; }
+
+    private BattleType _currentBattle;
+    
+    public event Action OnLevelOneBattleWon;
+    public event Action OnLevelOneBossWon;
+    public event Action OnLevelTwoBattleWon;
+    public event Action OnLevelTwoBossWon;
+    public event Action OnLevelThreeBattleWon;
+    public event Action OnLevelThreeBossWon;
+    public event Action OnBattleLost;
+
+    private bool _buttonsInitialized;
     
     private void Awake()
     {
@@ -62,7 +83,6 @@ public class BattleManager : MonoBehaviour
     {
         _fpc = _player.GetComponent<FirstPersonController>();
         _enemyComponent = _enemy.GetComponent<Enemy>();
-        // _currentBattleState = BattleState.PlayerTurn;
     }
 
     private void EnterBattleMode()
@@ -95,16 +115,20 @@ public class BattleManager : MonoBehaviour
 
     private void PopulateAbilityButtons()
     {
+        if (_buttonsInitialized) return;
+        
         for (var i = 0; i < _abilityButtons.Length; i++)
         {
             InitializeButtons(i);
         }
+
+        _buttonsInitialized = true;
     }
 
     private void InitializeButtons(int buttonIndex)
     {
         _abilityButtons[buttonIndex].SetActive(Player.Instance.Abilities[buttonIndex].IsUnlocked);
-        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => Player.Instance.Abilities[buttonIndex].Activate(_player.GetComponent<ICharacter>(), _enemy.GetComponent<ICharacter>()));
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => Player.Instance.Abilities[buttonIndex].Activate(_player.GetComponent<Player>(), _enemy.GetComponent<Enemy>()));
         _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], Player.Instance.Abilities[buttonIndex]));
         _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = Player.Instance.Abilities[buttonIndex].ToString();
     }
@@ -114,15 +138,16 @@ public class BattleManager : MonoBehaviour
         button.GetComponentInChildren<TMP_Text>().text = ability.ToString();
     }
     
-    public void StartBattle()
+    public void StartBattle(BattleType levelBattle)
     {
         EnterBattleMode();
         PopulateAbilityButtons();
-        // _currentBattleState = BattleState.PlayerTurn;
-        StartCoroutine(BattleRoutine());
+        _currentBattleState = BattleState.PlayerTurn;
+        _currentBattle = levelBattle;
+        StartCoroutine(BattleRoutine(levelBattle));
     }
 
-    private IEnumerator BattleRoutine()
+    private IEnumerator BattleRoutine(BattleType levelBattle)
     {
         while (!Player.Instance.IsDead && !_enemyComponent.IsDead)
         {
@@ -132,7 +157,7 @@ public class BattleManager : MonoBehaviour
                 PlayerHasTakenTurn = false;
                 ActivateButtons();
                 yield return new WaitUntil(() => PlayerHasTakenTurn);
-                UpdateActionText(_player, PlayerMove);
+                UpdateActionText(_player, PlayerMoveName);
                 _currentBattleState = BattleState.EnemyTurn;
             } else if (_currentBattleState == BattleState.EnemyTurn)
             {
@@ -142,7 +167,7 @@ public class BattleManager : MonoBehaviour
                 yield return new WaitForSeconds(2.5f);
                 _enemyComponent.TakeTurn();
                 yield return new WaitUntil(() => EnemyHasTakenTurn);
-                UpdateActionText(_enemy, EnemyMove); 
+                UpdateActionText(_enemy, EnemyMoveName); 
                 _currentBattleState = BattleState.PlayerTurn;
             }
         }
@@ -150,14 +175,12 @@ public class BattleManager : MonoBehaviour
         if (Player.Instance.IsDead)
         {
             Debug.Log("Player loses");
-            // _currentBattleState = BattleState.Loss;
-            GameStateManager.Instance.CurrentState = GameState.Exploration;
+            TriggerBattleFinishedEvent(BattleType.Lost);
             ExitBattleMode();
         } else if (_enemyComponent.IsDead)
         {
             Debug.Log("Player win");
-            // _currentBattleState = BattleState.Win;
-            GameStateManager.Instance.CurrentState = GameState.Exploration;
+            TriggerBattleFinishedEvent(levelBattle);
             ExitBattleMode();
         }
 
@@ -177,5 +200,33 @@ public class BattleManager : MonoBehaviour
         }
 
         _updateText.text = $"{turnTakerString} used: {action}!";
+    }
+
+    private void TriggerBattleFinishedEvent(BattleType levelBattle)
+    {
+        switch (levelBattle)
+        {
+            case BattleType.LevelOneBattle:
+                OnLevelOneBattleWon?.Invoke();
+                break;
+            case BattleType.LevelOneBoss:
+                OnLevelOneBossWon?.Invoke();
+                break;
+            case BattleType.LevelTwoBattle:
+                OnLevelTwoBattleWon?.Invoke();
+                break;
+            case BattleType.LevelTwoBoss:
+                OnLevelTwoBossWon?.Invoke();
+                break;
+            case BattleType.LevelThreeBattle:
+                OnLevelThreeBattleWon?.Invoke();
+                break;
+            case BattleType.LevelThreeBoss:
+                OnLevelThreeBossWon?.Invoke();
+                break;
+            case BattleType.Lost:
+                OnBattleLost?.Invoke();
+                break;
+        }
     }
 }

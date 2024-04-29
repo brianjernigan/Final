@@ -86,6 +86,7 @@ public class Player : MonoBehaviour, ICharacter
     {
         InitializeAbilities();
         AddAbilities();
+        transform.position = new Vector3(6, 0, -8);
         CurrentHealth = MaxHealth;
     }
     
