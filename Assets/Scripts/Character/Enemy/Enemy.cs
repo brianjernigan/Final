@@ -12,17 +12,41 @@ public class Enemy : MonoBehaviour, ICharacter
     private MeshRenderer _meshRenderer;
 
     [SerializeField] private GameObject _player;
-
+    
+    private ICharacter _playerEntity;
+    private ICharacter _enemyEntity;
+    
     public string Name { get; set; }
     public int MaxHealth { get; set; } = 20;
     public int CurrentHealth { get; set; }
     public bool IsDead { get; set; }
     public bool IsDefending { get; set; }
 
-    private void Awake()
+    public List<EnemyAbility> Abilities { get; set; } = new();
+
+    private Attack _attack = new Attack();
+    private Defend _defend = new Defend();
+    private Heal _heal = new Heal();
+    
+    private void InitializeComponents()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _originalMat = _meshRenderer.material;
+        _playerEntity = _player.GetComponent<ICharacter>();
+        _enemyEntity = GetComponent<ICharacter>();
+    }
+
+    private void AddAbilities()
+    {
+        Abilities.Add(_attack);
+        Abilities.Add(_defend);
+        Abilities.Add(_heal);
+    }
+    
+    private void Awake()
+    {
+        InitializeComponents();
+        AddAbilities();
         CurrentHealth = MaxHealth;
     }
     
@@ -40,56 +64,17 @@ public class Enemy : MonoBehaviour, ICharacter
 
         if (CurrentHealth <= 0)
         {
-            Die();
+            IsDead = true;
         }
-    }
-
-    public void Attack(ICharacter target, int damageAmount)
-    {
-        target.TakeDamage(2);
-        BattleManager.Instance.EnemyMoveName = "Attack";
-        BattleManager.Instance.EnemyHasTakenTurn = true;
-    }
-
-    public void Defend()
-    {
-        IsDefending = true;
-        BattleManager.Instance.EnemyMoveName = "Defend";
-        BattleManager.Instance.EnemyHasTakenTurn = true;
-    }
-
-    public void Heal(int amount)
-    {
-        CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
-        BattleManager.Instance.EnemyMoveName = $"Heal ({amount})";
-        BattleManager.Instance.EnemyHasTakenTurn = true;
-    }
-
-    public void Die()
-    {
-        Debug.Log("enemy died");
-        IsDead = true;
     }
     
     public void TakeTurn()
     {
-        var randomNumber = Random.Range(1, 4);
+        var randomNumber = Random.Range(0, Abilities.Count);
 
-        switch (randomNumber)
-        {
-            case 1:
-                Attack(_player.GetComponent<ICharacter>(), 5);
-                UpdateHealthText(_healthText);
-                break;
-            case 2:
-                Defend();
-                UpdateHealthText(_healthText);
-                break;
-            case 3:
-                Heal(5);
-                UpdateHealthText(_healthText);
-                break;
-        }
+        Abilities[randomNumber].Activate(_enemyEntity, _playerEntity);
+
+        UpdateHealthText(_healthText);
     }
     
     private IEnumerator FlashDamageColor()

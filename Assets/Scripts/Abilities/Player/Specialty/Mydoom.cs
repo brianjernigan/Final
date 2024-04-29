@@ -3,22 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserBlast : Ability
+public class Mydoom : PlayerAbility
 {
-    public LaserBlast() : base("Laser Blast", 20)
+    public Mydoom()
     {
-        IsUnlocked = true;
+        Name = "Mydoom";
+        MaxUses = 5;
+        UsesRemaining = MaxUses;
+        IsUnlocked = false;
     }
 
     public override void Activate(ICharacter player, ICharacter target)
     {
         player.IsDefending = false;
         
-        Debug.Log("laser blast");
+        Debug.Log("Mydoom");
         if (UsesRemaining == 0) return;
-
-        player.Attack(target, 10);
-
+        
+        // TODO
+        // Implement move mechanics
+        
         EndTurn();
     }
 }

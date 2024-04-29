@@ -3,22 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Incognito : Ability
+public class Hack : PlayerAbility
 {
-    public Incognito() : base("Incognito", 5)
+    public Hack()
     {
+        Name = "Hack";
+        MaxUses = 10;
+        UsesRemaining = MaxUses;
+        IsUnlocked = true;
     }
 
     public override void Activate(ICharacter player, ICharacter target)
     {
         player.IsDefending = false;
         
-        Debug.Log("Incognito");
+        Debug.Log("Hack");
         if (UsesRemaining == 0) return;
         
         // TODO
         // Implement move mechanics
-        
+
         EndTurn();
     }
 }

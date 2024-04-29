@@ -3,22 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NanoSwarm : Ability 
+public class LaserBlast : PlayerAbility
 {
-    public NanoSwarm() : base("Nano Swarm", 5)
+    public LaserBlast()
     {
+        Name = "Laser Blast";
+        MaxUses = 20;
+        UsesRemaining = MaxUses;
+        IsUnlocked = true;
     }
 
     public override void Activate(ICharacter player, ICharacter target)
     {
         player.IsDefending = false;
         
-        Debug.Log("Nano Swarm");
+        Debug.Log("laser blast");
         if (UsesRemaining == 0) return;
-        
-        // TODO
-        // Implement move mechanics
-        
+
+        target.TakeDamage(10);
+
         EndTurn();
     }
 }

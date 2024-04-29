@@ -5,17 +5,11 @@ using UnityEngine;
 
 public interface ICharacter
 {
-    public string Name { get; set; }
-    public int MaxHealth { get; set; }
-    public int CurrentHealth { get; set; }
-    public bool IsDead { get; set; }
-    public bool IsDefending { get; set; }
+    string Name { get; set; }
+    int MaxHealth { get; set; }
+    int CurrentHealth { get; set; }
+    bool IsDead { get; set; }
+    bool IsDefending { get; set; }
     
-    public void TakeDamage(int amount);
-    public void Attack(ICharacter target, int damageAmount);
-    public void Defend();
-    public void Heal(int amount);
-    public void Die();
-
-    public void UpdateHealthText(GameObject textObject);
+    void TakeDamage(int amount);
 }

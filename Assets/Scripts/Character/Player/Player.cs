@@ -13,30 +13,18 @@ public class Player : MonoBehaviour, ICharacter
     public bool IsDead { get; set; }
     public bool IsDefending { get; set; }
 
-    public List<Ability> Abilities { get; set; } = new();
-    
-    private LaserBlast _laserBlast;
-    private EnergyShield _energyShield;
-    private Hack _hack;
-    private Troubleshoot _troubleshoot;
-    private ElectroPulse _electroPulse;
-    private NanoSwarm _nanoSwarm;
-    private Incognito _incognito;
-    private Mydoom _mydoom;
+    public List<PlayerAbility> Abilities { get; set; } = new();
+
+    private LaserBlast _laserBlast = new LaserBlast();
+    private EnergyShield _energyShield = new EnergyShield();
+    private Hack _hack = new Hack();
+    private Troubleshoot _troubleshoot = new Troubleshoot();
+    private ElectroPulse _electroPulse = new ElectroPulse();
+    private NanoSwarm _nanoSwarm = new NanoSwarm();
+    private Incognito _incognito = new Incognito();
+    private Mydoom _mydoom = new Mydoom();
 
     [SerializeField] private GameObject _healthText;
-    
-    private void InitializeAbilities()
-    {
-        _laserBlast = new LaserBlast();
-        _energyShield = new EnergyShield();
-        _hack = new Hack();
-        _troubleshoot = new Troubleshoot();
-        _electroPulse = new ElectroPulse();
-        _nanoSwarm = new NanoSwarm();
-        _incognito = new Incognito();
-        _mydoom = new Mydoom();
-    }
     
     private void AddAbilities()
     {
@@ -84,7 +72,6 @@ public class Player : MonoBehaviour, ICharacter
 
     private void Start()
     {
-        InitializeAbilities();
         AddAbilities();
         transform.position = new Vector3(6, 0, -8);
         CurrentHealth = MaxHealth;
@@ -103,29 +90,8 @@ public class Player : MonoBehaviour, ICharacter
 
         if (CurrentHealth <= 0)
         {
-            Die();
+            IsDead = true;
         }
-    }
-
-    public void Attack(ICharacter target, int damageAmount)
-    {
-        target.TakeDamage(damageAmount);
-    }
-
-    public void Defend()
-    {
-        IsDefending = true;
-    }
-
-    public void Heal(int amount)
-    {
-        CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
-    }
-
-    public void Die()
-    {
-        Debug.Log("player died");
-        IsDead = true;
     }
 
     public void UpdateHealthText(GameObject textObject)

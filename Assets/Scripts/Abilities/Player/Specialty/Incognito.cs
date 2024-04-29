@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mydoom : Ability
+public class Incognito : PlayerAbility
 {
-    public Mydoom() : base("Mydoom", 2)
+    public Incognito()
     {
+        Name = "Incognito";
+        MaxUses = 10;
+        UsesRemaining = MaxUses;
+        IsUnlocked = false;
     }
 
     public override void Activate(ICharacter player, ICharacter target)
     {
         player.IsDefending = false;
         
-        Debug.Log("Mydoom");
+        Debug.Log("Incognito");
         if (UsesRemaining == 0) return;
         
         // TODO

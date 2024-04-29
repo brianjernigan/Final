@@ -3,23 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hack : Ability
+public class NanoSwarm : PlayerAbility 
 {
-    public Hack() : base("Hack", 10)
+    public NanoSwarm()
     {
-        IsUnlocked = true;
+        Name = "Nano Swarm";
+        MaxUses = 10;
+        UsesRemaining = MaxUses;
+        IsUnlocked = false;
     }
 
     public override void Activate(ICharacter player, ICharacter target)
     {
         player.IsDefending = false;
         
-        Debug.Log("Hack");
+        Debug.Log("Nano Swarm");
         if (UsesRemaining == 0) return;
         
         // TODO
         // Implement move mechanics
-
+        
         EndTurn();
     }
 }
