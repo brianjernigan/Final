@@ -9,6 +9,12 @@ public class Heal : EnemyAbility
 
     public override void Activate(ICharacter user, ICharacter target)
     {
+        if (user.IsStunned)
+        {
+            user.IsStunned = false;
+            return;
+        }
+        
         user.IsDefending = false;
         user.CurrentHealth = Mathf.Min(user.MaxHealth, user.CurrentHealth + healAmount);
     }

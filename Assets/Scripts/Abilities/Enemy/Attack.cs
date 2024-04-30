@@ -9,6 +9,17 @@ public class Attack : EnemyAbility
 
     public override void Activate(ICharacter user, ICharacter target)
     {
+        if (user.IsStunned)
+        {
+            user.IsStunned = false;
+            return;
+        }
+
+        if (user.IsConfused)
+        {
+            user.TakeDamage(damageAmount / 2);
+        }
+        
         user.IsDefending = false;
         target.TakeDamage(damageAmount);
     }

@@ -7,6 +7,12 @@ public class Defend : EnemyAbility
 {
     public override void Activate(ICharacter user, ICharacter target)
     {
+        if (user.IsStunned)
+        {
+            user.IsStunned = false;
+            return;
+        }
+        
         user.IsDefending = true;
     }
 }

@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hack : MonoBehaviour
+[CreateAssetMenu(fileName = "New Player Ability", menuName = "Abilities/Player Ability/Hack")]
+public class Hack : PlayerAbility
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Activate(ICharacter user, ICharacter target)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        target.IsStunned = true;
     }
 }

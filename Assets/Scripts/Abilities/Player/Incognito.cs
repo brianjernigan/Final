@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Incognito : MonoBehaviour
+[CreateAssetMenu(fileName = "New Player Ability", menuName = "Abilities/Player Ability/Incognito")]
+public class Incognito : PlayerAbility
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Activate(ICharacter user, ICharacter target)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        throw new System.NotImplementedException();
     }
 }

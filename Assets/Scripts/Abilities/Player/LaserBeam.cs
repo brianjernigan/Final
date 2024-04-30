@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserBeam : MonoBehaviour
+[CreateAssetMenu(fileName = "New Player Ability", menuName = "Abilities/Player Ability/Laser Beam")]
+public class LaserBeam : PlayerAbility
 {
-    // Start is called before the first frame update
-    void Start()
+    public int damageAmount;
+    public override void Activate(ICharacter user, ICharacter target)
     {
-        
-    }
+        if (UsesRemaining == 0) return;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        user.IsDefending = false;
+        target.TakeDamage(damageAmount);
+        UsesRemaining--;
     }
 }

@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnergyShield : MonoBehaviour
+[CreateAssetMenu(fileName = "New Player Ability", menuName = "Abilities/Player Ability/Energy Shield")]
+public class EnergyShield : PlayerAbility
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Activate(ICharacter user, ICharacter target)
     {
+        if (UsesRemaining == 0) return;
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        user.IsDefending = true;
+        UsesRemaining--;
     }
 }

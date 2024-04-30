@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Troubleshoot : MonoBehaviour
+[CreateAssetMenu(fileName = "New Player Ability", menuName = "Abilities/Player Ability/Troubleshoot")]
+public class Troubleshoot : PlayerAbility
 {
-    // Start is called before the first frame update
-    void Start()
+    public int healAmount;
+    public override void Activate(ICharacter user, ICharacter target)
     {
+        if (UsesRemaining == 0) return;
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        user.IsDefending = false;
+        user.CurrentHealth = Mathf.Max(user.MaxHealth, user.CurrentHealth + healAmount);
+        UsesRemaining--;
     }
 }
