@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e2e559047bfed24e82e62576a1a24d7, type: 3}
-  m_Name: FirstDialog
+  m_Script: {fileID: 11500000, guid: ae28ef5743ff9f04ebcbdd898b035ef3, type: 3}
+  m_Name: LevelTwoStandardHeal
   m_EditorClassIdentifier: 
-  Name: Level One
-  Lines:
-  - Hello Brian
-  - You're looking mighty cute tonight
+  Name: Heal
+  Icon: {fileID: 0}
+  healAmount: 4

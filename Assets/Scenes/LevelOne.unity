@@ -447,7 +447,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1481343056491324, guid: fb3f307d37061c240ba7c71bdd276f84, type: 3}
   m_PrefabInstance: {fileID: 1294565879}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &57378776
+--- !u!114 &57378781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -456,12 +456,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 57378770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 391d3da1b8c43614fb4ae8fba5b5ee8f, type: 3}
+  m_Script: {fileID: 11500000, guid: b1b31e7419b988a44820a70b46d2f5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthText: {fileID: 1290442354}
-  _damageMat: {fileID: 2100000, guid: 060ea8d5ff37b1e4a9ab8cbe17b3fedb, type: 2}
-  _player: {fileID: 1985540838}
+  _enemyData: {fileID: 11400000, guid: dce0a2e5ab24c8e4ca53314ddb0680f7, type: 2}
 --- !u!1 &111700550
 GameObject:
   m_ObjectHideFlags: 0
@@ -17996,7 +17994,6 @@ GameObject:
   m_Component:
   - component: {fileID: 566749584}
   - component: {fileID: 566749585}
-  - component: {fileID: 566749586}
   m_Layer: 0
   m_Name: BattleTrigger1
   m_TagString: BattleTrigger
@@ -18040,19 +18037,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5.910492, y: 1.7254372, z: 11.71531}
   m_Center: {x: 2.455246, y: 9.049696, z: 0.48364782}
---- !u!114 &566749586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 566749583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e805af8c680b392418daa662afae46b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _levelOneDoor: {fileID: 1290514117}
 --- !u!1 &576778971
 GameObject:
   m_ObjectHideFlags: 0
@@ -18212,7 +18196,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1985540839}
+      addedObject: {fileID: 1985540846}
   m_SourcePrefab: {fileID: 100100000, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
 --- !u!1 &606220664
 GameObject:
@@ -19041,9 +19025,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47a091e61a164e49a4c777bba9b38a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelOneScript: {fileID: 11400000, guid: 10762f2e03e358340b6b06a5daaa8ae1, type: 2}
-  _player: {fileID: 1985540838}
-  _questArrowOne: {fileID: 1011479891}
+  _levelData: {fileID: 0}
+  _questArrow: {fileID: 1011479891}
 --- !u!65 &821195010
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19822,7 +19805,64 @@ MonoBehaviour:
   - {fileID: 1649082443}
   _updateText: {fileID: 372906072}
   _player: {fileID: 1985540838}
+  _fpc: {fileID: 0}
   _enemy: {fileID: 57378770}
+  _enemyComponent: {fileID: 0}
+  _currentBattleState: 0
+  <PlayerMoveName>k__BackingField: 
+  <EnemyMoveName>k__BackingField: 
+  <PlayerHasTakenTurn>k__BackingField: 0
+  <EnemyHasTakenTurn>k__BackingField: 0
+  _currentBattle: 0
+  _buttonsInitialized: 0
+  _currentLevelData: {fileID: 0}
+--- !u!1 &1190443087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190443088}
+  - component: {fileID: 1190443089}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1190443088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190443087}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -48.03586, y: -31.403276, z: 42.309566}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1190443089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190443087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b091e4beeaa2d5846b80b8c8510ed00d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelOneData: {fileID: 0}
+  _levelTwoData: {fileID: 0}
+  _levelThreeData: {fileID: 0}
 --- !u!850595691 &1286415862
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -20444,7 +20484,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1481343056491324, guid: fb3f307d37061c240ba7c71bdd276f84, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 57378776}
+      addedObject: {fileID: 57378781}
   m_SourcePrefab: {fileID: 100100000, guid: fb3f307d37061c240ba7c71bdd276f84, type: 3}
 --- !u!1 &1333742331
 GameObject:
@@ -21593,7 +21633,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
   m_PrefabInstance: {fileID: 579823125}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1985540839
+--- !u!114 &1985540846
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -21602,10 +21642,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1985540838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10b7f2a6b6747464d9ecbc0ad146ab58, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b99ece42ec3f6145a520d3745b0f602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthText: {fileID: 2031962637}
+  _abilities:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2006997509
 GameObject:
   m_ObjectHideFlags: 0
@@ -22267,5 +22310,6 @@ SceneRoots:
   - {fileID: 931176810}
   - {fileID: 1127730428}
   - {fileID: 445558716}
+  - {fileID: 1190443088}
   - {fileID: 900782084}
   - {fileID: 1290514123}

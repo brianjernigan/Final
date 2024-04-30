@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Enemy Ability", menuName = "Abilities/Enemy Ability/Attack")]
 public class Attack : EnemyAbility
 {
-    public Attack()
+    public int damageAmount;
+
+    public override void Activate(ICharacter user, ICharacter target)
     {
-        Name = "Attack";
-    }
-    
-    public override void Activate(ICharacter enemy, ICharacter player)
-    {
-        player.TakeDamage(2);
-        EndTurn();
+        user.IsDefending = false;
+        target.TakeDamage(damageAmount);
     }
 }

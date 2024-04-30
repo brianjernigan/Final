@@ -2,16 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Enemy Ability", menuName = "Abilities/Enemy Ability/Defend")]
 public class Defend : EnemyAbility
 {
-    public Defend()
+    public override void Activate(ICharacter user, ICharacter target)
     {
-        Name = "Defend";
-    }
-
-    public override void Activate(ICharacter enemy, ICharacter player)
-    {
-        enemy.IsDefending = true;
-        EndTurn();
+        user.IsDefending = true;
     }
 }

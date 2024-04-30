@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -30,6 +31,11 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        DialogManager.Instance.OnDialogFinished += OnStateChange;
+    }
+
     private void Start()
     {
         ChangeState(GameState.Exploration);
@@ -38,24 +44,21 @@ public class GameStateManager : MonoBehaviour
     public void ChangeState(GameState newState)
     {
         CurrentState = newState;
-        OnStateChange(newState);
+        OnStateChange(null);
     }
 
-    private void OnStateChange(GameState state)
+    private void OnStateChange(string ignore)
     {
-        switch (state)
+        switch (CurrentState)
         {
             case GameState.Exploration:
-                Debug.Log("exploration");
-                HandleMouseBehavior(state);
+                HandleMouseBehavior(CurrentState);
                 break;
             case GameState.Dialog:
-                Debug.Log("dialog");
-                HandleMouseBehavior(state);
+                HandleMouseBehavior(CurrentState);
                 break;
             case GameState.Battle:
-                Debug.Log("battle");
-                HandleMouseBehavior(state);
+                HandleMouseBehavior(CurrentState);
                 break;
         }
     }

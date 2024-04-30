@@ -6,13 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum DialogType
-{
-    LevelOneDialog,
-    LevelTwoDialog,
-    LevelThreeDialog
-}
-
 public class DialogManager : MonoBehaviour
 {
     public static DialogManager Instance { get; private set; }
@@ -29,13 +22,12 @@ public class DialogManager : MonoBehaviour
     private Queue<string> _sentences;
     private bool _isTyping;
 
-    private DialogType _currentDialog;
-
-    public event Action OnLevelOneDialogFinished;
-    public event Action OnLevelTwoDialogFinished;
-    public event Action OnLevelThreeDialogFinished;
-
+    private LevelData _levelData;
+    
     private string _currentSentence;
+
+    public delegate void DialogFinishedDelegate(string levelName);
+    public event DialogFinishedDelegate OnDialogFinished;
 
     private void Awake()
     {
@@ -72,19 +64,20 @@ public class DialogManager : MonoBehaviour
     {
         _dialogPanel.SetActive(false);
         _fpc.enabled = true;
+        GameStateManager.Instance.ChangeState(GameState.Exploration);
     }
 
-    public void StartDialog(List<string> script, DialogType levelDialog)
+    public void StartDialog(LevelData levelData)
     {
+        _levelData = levelData;
         EnterDialogMode();
         _sentences.Clear();
 
-        foreach (var line in script)
+        foreach (var line in _levelData.dialogData.Lines)
         {
             _sentences.Enqueue(line);
         }
-
-        _currentDialog = levelDialog;
+        
         DisplayNextSentence();
     }
 
@@ -105,7 +98,7 @@ public class DialogManager : MonoBehaviour
             if (_sentences.Count == 0)
             {
                 ExitDialogMode();
-                TriggerDialogFinishedEvent();
+                TriggerDialogFinishedEvent(_levelData.LevelName);
             }
             else
             {
@@ -132,19 +125,8 @@ public class DialogManager : MonoBehaviour
         _isTyping = false;
     }
 
-    private void TriggerDialogFinishedEvent()
+    private void TriggerDialogFinishedEvent(string levelName)
     {
-        switch (_currentDialog)
-        {
-            case DialogType.LevelOneDialog:
-                OnLevelOneDialogFinished?.Invoke();
-                break;
-            case DialogType.LevelTwoDialog:
-                OnLevelTwoDialogFinished?.Invoke();
-                break;
-            case DialogType.LevelThreeDialog:
-                OnLevelThreeDialogFinished?.Invoke();
-                break;
-        }
+        OnDialogFinished?.Invoke(levelName);
     }
 }
