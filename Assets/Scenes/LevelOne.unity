@@ -815,7 +815,6 @@ GameObject:
   m_Component:
   - component: {fileID: 211454135}
   - component: {fileID: 211454136}
-  - component: {fileID: 211454137}
   m_Layer: 0
   m_Name: BossTrigger1
   m_TagString: BossTrigger
@@ -859,18 +858,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.7254372, z: 30.609207}
   m_Center: {x: 1.6244906e-16, y: 9.049696, z: 0.5114312}
---- !u!114 &211454137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 211454134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5674b5aacada7e47a184ff258577a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &246850651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
@@ -19025,7 +19012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47a091e61a164e49a4c777bba9b38a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelData: {fileID: 0}
+  _levelData: {fileID: 11400000, guid: 42cdafd2bfb3a404688ed2677547cca7, type: 2}
   _questArrow: {fileID: 1011479891}
 --- !u!65 &821195010
 BoxCollider:
@@ -19758,7 +19745,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1127730428}
-  - component: {fileID: 1127730429}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -19781,41 +19767,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1127730429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127730427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af93865ce09021947bdba4d4bb70e43c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _battlePanel: {fileID: 576778971}
-  _abilityButtons:
-  - {fileID: 606220664}
-  - {fileID: 756190783}
-  - {fileID: 403454528}
-  - {fileID: 47975017}
-  - {fileID: 750295032}
-  - {fileID: 8616446}
-  - {fileID: 2135932998}
-  - {fileID: 1649082443}
-  _updateText: {fileID: 372906072}
-  _player: {fileID: 1985540838}
-  _fpc: {fileID: 0}
-  _enemy: {fileID: 57378770}
-  _enemyComponent: {fileID: 0}
-  _currentBattleState: 0
-  <PlayerMoveName>k__BackingField: 
-  <EnemyMoveName>k__BackingField: 
-  <PlayerHasTakenTurn>k__BackingField: 0
-  <EnemyHasTakenTurn>k__BackingField: 0
-  _currentBattle: 0
-  _buttonsInitialized: 0
-  _currentLevelData: {fileID: 0}
 --- !u!1 &1190443087
 GameObject:
   m_ObjectHideFlags: 0
