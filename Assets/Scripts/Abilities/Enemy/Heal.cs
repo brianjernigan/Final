@@ -13,12 +13,12 @@ public class Heal : EnemyAbility
     {
         if (enemy.IsConfused)
         {
-            EndTurn("The enemy is confused!");
+            EndTurn($"{enemy.Name} is confused!");
             enemy.IsConfused = false;
             return;
         }
         
         enemy.CurrentHealth = Mathf.Max(enemy.MaxHealth, enemy.CurrentHealth + 2);
-        EndTurn($"Enemy used: {Name}!");
+        EndTurn($"{enemy.Name} used: {Name}!");
     }
 }

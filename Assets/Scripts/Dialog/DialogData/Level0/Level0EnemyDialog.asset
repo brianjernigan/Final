@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Level0EnemyDialog
   m_EditorClassIdentifier: 
   lines:
-  - Prepare to die!
+  - '"Prepare to die!"'

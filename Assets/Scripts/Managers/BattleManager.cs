@@ -14,6 +14,12 @@ public enum BattleState
     EnemyTurn,
 }
 
+public enum BattleType
+{
+    Enemy,
+    Boss
+}
+
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; private set; }
@@ -80,16 +86,31 @@ public class BattleManager : MonoBehaviour
     {
         _playerController = _player.GetComponent<PlayerController>();
         _fpc = _player.GetComponent<FirstPersonController>();
-        _enemy = GameObject.Find(_currentLevelData.npcNames[1]);
-        _enemyController = _enemy.GetComponent<EnemyController>();
     }
 
-    private void EnterBattleMode()
+    private void EnterBattleMode(BattleType battleType)
     {
         GameManager.Instance.ChangeState(GameState.Battle);
+        SetCurrentEnemy(battleType);
+        _enemyController.UpdateHealthText();
         _battlePanel.SetActive(true);
         _fpc.enabled = false;
         BattleIsFinished = false;
+    }
+
+    private void SetCurrentEnemy(BattleType battleType)
+    {
+        switch (battleType)
+        {
+            case BattleType.Enemy:
+                _enemy = GameObject.Find(_currentLevelData.npcNames[1]);
+                _enemyController = _enemy.GetComponent<EnemyController>();
+                break;
+            case BattleType.Boss:
+                _enemy = GameObject.Find(_currentLevelData.npcNames[2]);
+                _enemyController = _enemy.GetComponent<EnemyController>();
+                break;
+        }
     }
 
     private void ExitBattleMode()
@@ -143,9 +164,9 @@ public class BattleManager : MonoBehaviour
         button.GetComponentInChildren<TMP_Text>().text = ability.ToString();
     }
     
-    public void StartBattle()
+    public void StartBattle(BattleType battleType)
     {
-        EnterBattleMode();
+        EnterBattleMode(battleType);
         PopulateAbilityButtons();
         _currentBattleState = BattleState.PlayerTurn;
         StartCoroutine(BattleRoutine());

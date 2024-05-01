@@ -13,13 +13,13 @@ public class ElectroPulse : PlayerAbility
         IsUnlocked = false;
     }
 
-    public override void Activate(ICharacter player, ICharacter target)
+    public override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
         
         player.IsDefending = false;
-        target.TakeDamage(5);
-        target.IsConfused = true;
+        enemy.TakeDamage(5);
+        enemy.IsConfused = true;
         
         EndTurn();
     }

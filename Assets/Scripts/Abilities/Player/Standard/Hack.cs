@@ -13,7 +13,7 @@ public class Hack : PlayerAbility
         IsUnlocked = true;
     }
 
-    public override void Activate(ICharacter player, ICharacter target)
+    public override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
         

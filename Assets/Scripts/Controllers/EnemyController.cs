@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour, ICharacter
@@ -17,9 +19,9 @@ public class EnemyController : MonoBehaviour, ICharacter
     
     private ICharacter _playerEntity;
     private ICharacter _enemyEntity;
-    
+
     public string Name { get; set; }
-    public int MaxHealth { get; set; } = 20;
+    public int MaxHealth { get; set; }
     public int CurrentHealth { get; set; }
     public bool IsDead { get; set; }
     public bool IsDefending { get; set; }
@@ -37,7 +39,6 @@ public class EnemyController : MonoBehaviour, ICharacter
         _meshRenderer = GetComponent<MeshRenderer>();
         _originalMat = _meshRenderer.material;
         _playerEntity = _player.GetComponent<ICharacter>();
-        _enemyEntity = GetComponent<ICharacter>();
     }
 
     private void AddAbilities()
@@ -50,7 +51,67 @@ public class EnemyController : MonoBehaviour, ICharacter
     private void Awake()
     {
         InitializeComponents();
+        InitializeEnemy();
+    }
+
+    private void DetermineName()
+    {
+        var enemyName = gameObject.name;
+        var enemyIsBoss = enemyName.Contains("Boss");
+        if (!enemyIsBoss)
+        {
+            if (SceneManager.GetActiveScene().name.Contains("0"))
+            {
+                Name = "XYZ900";
+            }
+
+            if (SceneManager.GetActiveScene().name.Contains("1"))
+            {
+                Name = "ABC4000";
+            }
+
+            if (SceneManager.GetActiveScene().name.Contains("2"))
+            {
+                Name = "Jimmy";
+            }
+        } 
+        else 
+        {
+            if (SceneManager.GetActiveScene().name.Contains("0"))
+            {
+                Name = "Awesome-O";
+            }
+
+            if (SceneManager.GetActiveScene().name.Contains("1"))
+            {
+                Name = "Skynet";
+            }
+
+            if (SceneManager.GetActiveScene().name.Contains("2"))
+            {
+                Name = "T-1000";
+            }
+        }
+    }
+
+    private void InitializeEnemy()
+    {
+        _enemyEntity = GetComponent<ICharacter>();
+        InitializeHealth();
+        DetermineName();
         AddAbilities();
+    }
+
+    private void InitializeHealth()
+    {
+        if (gameObject.name.Contains("Enemy"))
+        {
+            MaxHealth = 20;
+        } else if (gameObject.name.Contains("Boss"))
+        {
+            MaxHealth = 50;
+        }
+
         CurrentHealth = MaxHealth;
     }
     
@@ -60,7 +121,7 @@ public class EnemyController : MonoBehaviour, ICharacter
 
         Abilities[randomNumber].Activate(_enemyEntity, _playerEntity);
 
-        UpdateHealthText(_healthText);
+        UpdateHealthText();
     }
     
     private IEnumerator FlashDamageColor()
@@ -70,9 +131,9 @@ public class EnemyController : MonoBehaviour, ICharacter
         _meshRenderer.material = _originalMat;
     }
 
-    public void UpdateHealthText(GameObject textObject)
+    public void UpdateHealthText()
     {
-        textObject.GetComponent<TMP_Text>().text = $"{Name} Health: {CurrentHealth}";
+        _healthText.GetComponent<TMP_Text>().text = $"{Name} Health: {CurrentHealth}";
     }
     
     #region ICharacterImplementation
@@ -86,7 +147,7 @@ public class EnemyController : MonoBehaviour, ICharacter
         }
         
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-        UpdateHealthText(_healthText);
+        UpdateHealthText();
         StartCoroutine(FlashDamageColor());
 
         if (CurrentHealth <= 0)

@@ -13,12 +13,12 @@ public class LaserBlast : PlayerAbility
         IsUnlocked = true;
     }
 
-    public override void Activate(ICharacter player, ICharacter target)
+    public override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
         
         player.IsDefending = false;
-        target.TakeDamage(10);
+        enemy.TakeDamage(10);
 
         EndTurn();
     }

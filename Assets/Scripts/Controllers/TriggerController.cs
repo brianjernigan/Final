@@ -22,33 +22,40 @@ public class TriggerScript : MonoBehaviour
         
         if (triggerName.Contains(BuddyString))
         {
-            StartCoroutine(BuddyDialogRoutine());
+            StartCoroutine(BuddyRoutine());
         }
 
         if (triggerName.Contains(EnemyString))
         {
-            StartCoroutine(BattleDialogRoutine(DialogType.EnemyDialog));
+            StartCoroutine(EnemyRoutine());
         }
 
         if (triggerName.Contains(BossString))
         {
-            StartCoroutine(BattleDialogRoutine(DialogType.BossDialog));
+            StartCoroutine(BossRoutine());
         }
         
     }
 
-    private IEnumerator BuddyDialogRoutine()
+    private IEnumerator BuddyRoutine()
     {
-        DialogManager.Instance.StartDialog(DialogType.BuddyDialog);
+        DialogManager.Instance.StartDialog(DialogType.Buddy);
         yield return new WaitUntil(() => DialogManager.Instance.DialogIsFinished);
         HandleEndOfInteraction();
     }
 
-    private IEnumerator BattleDialogRoutine(DialogType dialogType)
+    private IEnumerator EnemyRoutine()
     {
-        DialogManager.Instance.StartDialog(dialogType);
+        BattleManager.Instance.StartBattle(BattleType.Enemy);
+        yield return new WaitUntil(() => BattleManager.Instance.BattleIsFinished);
+        HandleEndOfInteraction();
+    }
+
+    private IEnumerator BossRoutine()
+    {
+        DialogManager.Instance.StartDialog(DialogType.Boss);
         yield return new WaitUntil(() => DialogManager.Instance.DialogIsFinished);
-        BattleManager.Instance.StartBattle();
+        BattleManager.Instance.StartBattle(BattleType.Boss);
         yield return new WaitUntil(() => BattleManager.Instance.BattleIsFinished);
         HandleEndOfInteraction();
     }

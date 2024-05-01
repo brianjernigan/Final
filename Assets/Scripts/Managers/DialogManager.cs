@@ -8,9 +8,8 @@ using UnityEngine.UI;
 
 public enum DialogType
 {
-    BuddyDialog,
-    EnemyDialog,
-    BossDialog
+    Buddy,
+    Boss
 }
 
 public class DialogManager : MonoBehaviour
@@ -33,7 +32,7 @@ public class DialogManager : MonoBehaviour
 
     private string _currentSentence;
     private LevelData _currentLevelData;
-    private int _dialogIndex;
+    private List<string> _currentDialog;
     
     private void Awake()
     {
@@ -66,17 +65,27 @@ public class DialogManager : MonoBehaviour
 
     private void InitializeDialog()
     {
-        _dialogIndex = 0;
         _sentences = new Queue<string>();
         _fpc = _player.GetComponent<FirstPersonController>();
         _continueButton.onClick.AddListener(DisplayNextSentence);
     }
 
-    private void EnterDialogMode()
+    private void EnterDialogMode(DialogType dialogType)
     {
         GameManager.Instance.ChangeState(GameState.Dialog);
         _dialogPanel.SetActive(true);
         _fpc.enabled = false;
+        SetCurrentDialog(dialogType);
+    }
+
+    private void SetCurrentDialog(DialogType dialogType)
+    {
+        _currentDialog = dialogType switch
+        {
+            DialogType.Buddy => _currentLevelData.dialogs[0].lines,
+            DialogType.Boss => _currentLevelData.dialogs[1].lines,
+            _ => _currentDialog
+        };
     }
 
     private void ExitDialogMode()
@@ -89,10 +98,10 @@ public class DialogManager : MonoBehaviour
     public void StartDialog(DialogType dialogType)
     {
         DialogIsFinished = false;
-        EnterDialogMode();
+        EnterDialogMode(dialogType);
         _sentences.Clear();
 
-        foreach (var line in _currentLevelData.dialogs[_dialogIndex].lines)
+        foreach (var line in _currentDialog)
         {
             _sentences.Enqueue(line);
         }
@@ -146,7 +155,6 @@ public class DialogManager : MonoBehaviour
     private void HandleDialogFinished()
     {
         ExitDialogMode();
-        _dialogIndex++;
         OnDialogFinished?.Invoke();
         DialogIsFinished = true;
     }
