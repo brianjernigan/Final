@@ -28,15 +28,12 @@ public class DialogManager : MonoBehaviour
 
     private Queue<string> _sentences;
     private bool _isTyping;
-
-    private DialogType _currentDialog;
-
-    public event Action OnLevelOneDialogFinished;
-    public event Action OnLevelTwoDialogFinished;
-    public event Action OnLevelThreeDialogFinished;
+    public event Action OnDialogFinished;
 
     private string _currentSentence;
 
+    private LevelData _currentLevelData;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -50,15 +47,26 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    private void Initialize()
+    private void OnEnable()
+    {
+        GameManager.Instance.OnLevelLoad += SetLevelData;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnLevelLoad -= SetLevelData;
+    }
+
+    private void SetLevelData(LevelData data)
+    {
+        _currentLevelData = data;
+        InitializeDialog();
+    }
+
+    private void InitializeDialog()
     {
         _sentences = new Queue<string>();
         _fpc = _player.GetComponent<FirstPersonController>();
-    }
-    
-    private void Start()
-    {
-        Initialize();
         _continueButton.onClick.AddListener(DisplayNextSentence);
     }
 
@@ -74,17 +82,16 @@ public class DialogManager : MonoBehaviour
         _fpc.enabled = true;
     }
 
-    public void StartDialog(List<string> script, DialogType levelDialog)
+    public void StartDialog()
     {
         EnterDialogMode();
         _sentences.Clear();
 
-        foreach (var line in script)
+        foreach (var line in _currentLevelData.buddyDialog.lines)
         {
             _sentences.Enqueue(line);
         }
-
-        _currentDialog = levelDialog;
+        
         DisplayNextSentence();
     }
 
@@ -105,7 +112,7 @@ public class DialogManager : MonoBehaviour
             if (_sentences.Count == 0)
             {
                 ExitDialogMode();
-                TriggerDialogFinishedEvent();
+                OnDialogFinished?.Invoke();
             }
             else
             {
@@ -130,21 +137,5 @@ public class DialogManager : MonoBehaviour
         }
 
         _isTyping = false;
-    }
-
-    private void TriggerDialogFinishedEvent()
-    {
-        switch (_currentDialog)
-        {
-            case DialogType.LevelOneDialog:
-                OnLevelOneDialogFinished?.Invoke();
-                break;
-            case DialogType.LevelTwoDialog:
-                OnLevelTwoDialogFinished?.Invoke();
-                break;
-            case DialogType.LevelThreeDialog:
-                OnLevelThreeDialogFinished?.Invoke();
-                break;
-        }
     }
 }

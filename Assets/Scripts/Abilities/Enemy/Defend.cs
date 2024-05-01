@@ -13,12 +13,12 @@ public class Defend : EnemyAbility
     {
         if (enemy.IsConfused)
         {
-            EndTurn("The enemy is confused");
+            EndTurn("The enemy is confused!");
             enemy.IsConfused = false;
             return;
         }
         
         enemy.IsDefending = true;
-        EndTurn(Name);
+        EndTurn($"Enemy used: {Name}");
     }
 }

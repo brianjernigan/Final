@@ -56,15 +56,12 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.Exploration:
-                Debug.Log("exploration");
                 HandleMouseBehavior(state);
                 break;
             case GameState.Dialog:
-                Debug.Log("dialog");
                 HandleMouseBehavior(state);
                 break;
             case GameState.Battle:
-                Debug.Log("battle");
                 HandleMouseBehavior(state);
                 break;
             case GameState.NextLevel:

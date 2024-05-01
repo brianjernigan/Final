@@ -8,47 +8,13 @@ using UnityEngine.SceneManagement;
 
 public class DialogTrigger : MonoBehaviour
 {
-    [SerializeField] private DialogData _levelOneScript;
-    [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject _questArrowOne;
-    
-    private void OnEnable()
-    {
-        DialogManager.Instance.OnLevelOneDialogFinished += HandleLevelOneDialogFinished;
-        DialogManager.Instance.OnLevelTwoDialogFinished += HandleLevelTwoDialogFinished;
-        DialogManager.Instance.OnLevelThreeDialogFinished += HandleLevelThreeDialogFinished;
-    }
-
-    private void OnDisable()
-    {
-        DialogManager.Instance.OnLevelOneDialogFinished -= HandleLevelOneDialogFinished;
-        DialogManager.Instance.OnLevelTwoDialogFinished -= HandleLevelTwoDialogFinished;
-        DialogManager.Instance.OnLevelThreeDialogFinished -= HandleLevelThreeDialogFinished;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && SceneManager.GetActiveScene().name == "LevelOne")
+        if (other.gameObject.CompareTag("Player"))
         {
             GameManager.Instance.ChangeState(GameState.Dialog);
-            DialogManager.Instance.StartDialog(_levelOneScript.lines, DialogType.LevelOneDialog);
+            DialogManager.Instance.StartDialog();
         }
     }
-
-    private void HandleLevelOneDialogFinished()
-    {
-        _questArrowOne.SetActive(true);
-        PlayerController.Instance.UnlockAbility(1);
-        GameManager.Instance.ChangeState(GameState.Exploration);
-    }
-
-    private void HandleLevelTwoDialogFinished()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void HandleLevelThreeDialogFinished()
-    {
-        throw new NotImplementedException();
-    }
 }
+

@@ -16,12 +16,12 @@ public class Attack : EnemyAbility
         if (enemy.IsConfused)
         {
             enemy.TakeDamage(DamageAmount / 2);
-            EndTurn("The enemy hurt itself in confusion");
+            EndTurn("The enemy hurt itself in confusion!");
             enemy.IsConfused = false;
             return;
         }
         
         player.TakeDamage(DamageAmount);
-        EndTurn(Name);
+        EndTurn($"Enemy used: {Name}!");
     }
 }

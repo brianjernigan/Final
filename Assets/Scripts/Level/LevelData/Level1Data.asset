@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5bc8a231ed35ff45b1fab71b13ab3d1, type: 3}
-  m_Name: LevelTwoData
+  m_Name: Level1Data
   m_EditorClassIdentifier: 
-  levelName: LevelTwo
+  levelName: Level1
   levelIndex: 1
   interactableNames:
-  - Buddy2
-  - Enemy2
-  - BossDoor2
-  - Boss2
-  - QuestArrow2
+  - Buddy1
+  - Enemy1
+  - BossDoor1
+  - Boss1
+  - QuestArrow1
+  buddyDialog: {fileID: 0}
+  bossDialog: {fileID: 0}

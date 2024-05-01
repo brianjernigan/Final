@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e2e559047bfed24e82e62576a1a24d7, type: 3}
-  m_Name: FirstDialog
+  m_Name: Level0BuddyDialog
   m_EditorClassIdentifier: 
   lines:
   - '"Hello? Is this thing on?"'

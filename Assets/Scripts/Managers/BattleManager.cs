@@ -14,17 +14,6 @@ public enum BattleState
     EnemyTurn,
 }
 
-public enum BattleType
-{
-    LevelOneBattle,
-    LevelOneBoss,
-    LevelTwoBattle,
-    LevelTwoBoss,
-    LevelThreeBattle,
-    LevelThreeBoss,
-    Lost
-}
-
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; private set; }
@@ -43,9 +32,12 @@ public class BattleManager : MonoBehaviour
     private EnemyController _enemyController;
     
     private BattleState _currentBattleState;
+
+    public delegate void BattleFinishedDelegate(bool result);
+    public event BattleFinishedDelegate OnBattleFinished;
     
-    public string PlayerMoveName { get; set; }
-    public string EnemyMoveName { get; set; }
+    public string PlayerMoveText { get; set; }
+    public string EnemyMoveText { get; set; }
     public bool PlayerHasTakenTurn { get; set; }
     public bool EnemyHasTakenTurn { get; set; }
 
@@ -69,6 +61,11 @@ public class BattleManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.OnLevelLoad += SetLevelData;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnLevelLoad -= SetLevelData;
     }
 
     private void SetLevelData(LevelData data)
@@ -154,50 +151,36 @@ public class BattleManager : MonoBehaviour
         {
             if (_currentBattleState == BattleState.PlayerTurn)
             {
-                Debug.Log("Player's Turn");
                 PlayerHasTakenTurn = false;
                 ActivateButtons();
                 yield return new WaitUntil(() => PlayerHasTakenTurn);
-                UpdateActionText(_player, PlayerMoveName);
+                UpdateActionText(PlayerMoveText);
                 _currentBattleState = BattleState.EnemyTurn;
             } else if (_currentBattleState == BattleState.EnemyTurn)
             {
-                Debug.Log("Enemy's turn");
                 EnemyHasTakenTurn = false;
                 DeactivateButtons();
                 yield return new WaitForSeconds(2.5f);
                 _enemyController.TakeTurn();
                 yield return new WaitUntil(() => EnemyHasTakenTurn);
-                UpdateActionText(_enemy, EnemyMoveName); 
+                UpdateActionText(EnemyMoveText); 
                 _currentBattleState = BattleState.PlayerTurn;
             }
         }
 
         if (PlayerController.Instance.IsDead)
         {
-            Debug.Log("Player loses");
             ExitBattleMode();
         } else if (_enemyController.IsDead)
         {
-            Debug.Log("Player win");
             ExitBattleMode();
         }
 
         yield return null;
     }
 
-    private void UpdateActionText(GameObject turnTaker, string action)
+    private void UpdateActionText(string actionText)
     {
-        var turnTakerString = "";
-
-        if (turnTaker == _player)
-        {
-            turnTakerString = "Player";
-        } else if (turnTaker == _enemy)
-        {
-            turnTakerString = "Enemy";
-        }
-
-        _updateText.text = $"{turnTakerString} used: {action}!";
+        _updateText.text = actionText;
     }
 }
