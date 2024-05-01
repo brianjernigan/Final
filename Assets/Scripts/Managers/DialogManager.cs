@@ -29,10 +29,11 @@ public class DialogManager : MonoBehaviour
     private Queue<string> _sentences;
     private bool _isTyping;
     public event Action OnDialogFinished;
+    public bool DialogIsFinished { get; set; }
 
     private string _currentSentence;
-
     private LevelData _currentLevelData;
+    private int _dialogIndex;
     
     private void Awake()
     {
@@ -65,6 +66,7 @@ public class DialogManager : MonoBehaviour
 
     private void InitializeDialog()
     {
+        _dialogIndex = 0;
         _sentences = new Queue<string>();
         _fpc = _player.GetComponent<FirstPersonController>();
         _continueButton.onClick.AddListener(DisplayNextSentence);
@@ -72,6 +74,7 @@ public class DialogManager : MonoBehaviour
 
     private void EnterDialogMode()
     {
+        GameManager.Instance.ChangeState(GameState.Dialog);
         _dialogPanel.SetActive(true);
         _fpc.enabled = false;
     }
@@ -80,14 +83,18 @@ public class DialogManager : MonoBehaviour
     {
         _dialogPanel.SetActive(false);
         _fpc.enabled = true;
+        // GameObject.Find(_currentLevelData.npcNames[_dialogIndex]).SetActive(false);
+        // GameObject.Find(_currentLevelData.triggerNames[_dialogIndex]).SetActive(false);
+        GameManager.Instance.ChangeState(GameState.Exploration);
     }
 
     public void StartDialog()
     {
+        DialogIsFinished = false;
         EnterDialogMode();
         _sentences.Clear();
 
-        foreach (var line in _currentLevelData.buddyDialog.lines)
+        foreach (var line in _currentLevelData.dialogs[_dialogIndex].lines)
         {
             _sentences.Enqueue(line);
         }
@@ -111,8 +118,7 @@ public class DialogManager : MonoBehaviour
             
             if (_sentences.Count == 0)
             {
-                ExitDialogMode();
-                OnDialogFinished?.Invoke();
+                HandleDialogFinished();
             }
             else
             {
@@ -133,9 +139,17 @@ public class DialogManager : MonoBehaviour
         foreach (var letter in sentence.ToCharArray())
         {
             _dialogText.text += letter;
-            yield return new WaitForSeconds(0.075f);
+            yield return new WaitForSeconds(0.05f);
         }
 
         _isTyping = false;
+    }
+
+    private void HandleDialogFinished()
+    {
+        ExitDialogMode();
+        _dialogIndex++;
+        OnDialogFinished?.Invoke();
+        DialogIsFinished = true;
     }
 }

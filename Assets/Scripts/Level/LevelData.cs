@@ -7,7 +7,8 @@ public class LevelData : ScriptableObject
 {
     public string levelName;
     public int levelIndex;
-    public string[] interactableNames;
-    public DialogData buddyDialog;
-    public DialogData bossDialog;
+    public string[] triggerNames;
+    public string[] npcNames;
+    public string[] objectNames;
+    public DialogData[] dialogs;
 }

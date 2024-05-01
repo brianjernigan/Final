@@ -78,12 +78,13 @@ public class BattleManager : MonoBehaviour
     {
         _playerController = _player.GetComponent<PlayerController>();
         _fpc = _player.GetComponent<FirstPersonController>();
-        _enemy = GameObject.Find(_currentLevelData.interactableNames[1]);
+        _enemy = GameObject.Find(_currentLevelData.npcNames[1]);
         _enemyController = _enemy.GetComponent<EnemyController>();
     }
 
     private void EnterBattleMode()
     {
+        GameManager.Instance.ChangeState(GameState.Battle);
         _battlePanel.SetActive(true);
         _fpc.enabled = false;
     }
@@ -92,6 +93,7 @@ public class BattleManager : MonoBehaviour
     {
         _battlePanel.SetActive(false);
         _fpc.enabled = true;
+        GameManager.Instance.ChangeState(GameState.Exploration);
     }
 
     private void DeactivateButtons()
@@ -160,7 +162,7 @@ public class BattleManager : MonoBehaviour
             {
                 EnemyHasTakenTurn = false;
                 DeactivateButtons();
-                yield return new WaitForSeconds(2.5f);
+                yield return new WaitForSeconds(1.25f);
                 _enemyController.TakeTurn();
                 yield return new WaitUntil(() => EnemyHasTakenTurn);
                 UpdateActionText(EnemyMoveText); 

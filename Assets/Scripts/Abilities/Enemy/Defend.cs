@@ -19,6 +19,6 @@ public class Defend : EnemyAbility
         }
         
         enemy.IsDefending = true;
-        EndTurn($"Enemy used: {Name}");
+        EndTurn($"Enemy used: {Name}!");
     }
 }

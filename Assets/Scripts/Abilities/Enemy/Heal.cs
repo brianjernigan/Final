@@ -19,6 +19,6 @@ public class Heal : EnemyAbility
         }
         
         enemy.CurrentHealth = Mathf.Max(enemy.MaxHealth, enemy.CurrentHealth + 2);
-        EndTurn($"Enemy used: {Name}");
+        EndTurn($"Enemy used: {Name}!");
     }
 }

@@ -10,11 +10,8 @@ public class DialogTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            GameManager.Instance.ChangeState(GameState.Dialog);
-            DialogManager.Instance.StartDialog();
-        }
+        if (!other.gameObject.CompareTag("Player")) return;
+        DialogManager.Instance.StartDialog();
     }
 }
 
