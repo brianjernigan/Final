@@ -36,11 +36,11 @@ public class BattleManager : MonoBehaviour
     
     [Header("Player")]
     [SerializeField] private GameObject _player;
+    private PlayerController _playerController;
     private FirstPersonController _fpc;
-
-    [Header("Enemy")] 
-    [SerializeField] private GameObject _enemy;
-    private Enemy _enemyComponent;
+    
+    private GameObject _enemy;
+    private EnemyController _enemyController;
     
     private BattleState _currentBattleState;
     
@@ -49,17 +49,9 @@ public class BattleManager : MonoBehaviour
     public bool PlayerHasTakenTurn { get; set; }
     public bool EnemyHasTakenTurn { get; set; }
 
-    private BattleType _currentBattle;
-    
-    public event Action OnLevelOneBattleWon;
-    public event Action OnLevelOneBossWon;
-    public event Action OnLevelTwoBattleWon;
-    public event Action OnLevelTwoBossWon;
-    public event Action OnLevelThreeBattleWon;
-    public event Action OnLevelThreeBossWon;
-    public event Action OnBattleLost;
-
     private bool _buttonsInitialized;
+
+    private LevelData _currentLevelData;
     
     private void Awake()
     {
@@ -74,15 +66,23 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        Initialize();
+        GameManager.Instance.OnLevelLoad += SetLevelData;
     }
 
-    private void Initialize()
+    private void SetLevelData(LevelData data)
     {
+        _currentLevelData = data;
+        InitializeLevel();
+    }
+
+    private void InitializeLevel()
+    {
+        _playerController = _player.GetComponent<PlayerController>();
         _fpc = _player.GetComponent<FirstPersonController>();
-        _enemyComponent = _enemy.GetComponent<Enemy>();
+        _enemy = GameObject.Find(_currentLevelData.interactableNames[1]);
+        _enemyController = _enemy.GetComponent<EnemyController>();
     }
 
     private void EnterBattleMode()
@@ -127,10 +127,12 @@ public class BattleManager : MonoBehaviour
 
     private void InitializeButtons(int buttonIndex)
     {
-        _abilityButtons[buttonIndex].SetActive(Player.Instance.Abilities[buttonIndex].IsUnlocked);
-        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => Player.Instance.Abilities[buttonIndex].Activate(_player.GetComponent<Player>(), _enemy.GetComponent<Enemy>()));
-        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], Player.Instance.Abilities[buttonIndex]));
-        _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = Player.Instance.Abilities[buttonIndex].ToString();
+        if (PlayerController.Instance.Abilities[buttonIndex] is not PlayerAbility ability) throw new NullReferenceException("Not a player ability");
+        
+        _abilityButtons[buttonIndex].SetActive(ability.IsUnlocked);
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => ability.Activate(_playerController, _enemyController));
+        _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], ability));
+        _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = ability.ToString();
     }
 
     private void UpdateButtonText(GameObject button, Ability ability)
@@ -138,18 +140,17 @@ public class BattleManager : MonoBehaviour
         button.GetComponentInChildren<TMP_Text>().text = ability.ToString();
     }
     
-    public void StartBattle(BattleType levelBattle)
+    public void StartBattle()
     {
         EnterBattleMode();
         PopulateAbilityButtons();
         _currentBattleState = BattleState.PlayerTurn;
-        _currentBattle = levelBattle;
-        StartCoroutine(BattleRoutine(levelBattle));
+        StartCoroutine(BattleRoutine());
     }
 
-    private IEnumerator BattleRoutine(BattleType levelBattle)
+    private IEnumerator BattleRoutine()
     {
-        while (!Player.Instance.IsDead && !_enemyComponent.IsDead)
+        while (!PlayerController.Instance.IsDead && !_enemyController.IsDead)
         {
             if (_currentBattleState == BattleState.PlayerTurn)
             {
@@ -165,22 +166,20 @@ public class BattleManager : MonoBehaviour
                 EnemyHasTakenTurn = false;
                 DeactivateButtons();
                 yield return new WaitForSeconds(2.5f);
-                _enemyComponent.TakeTurn();
+                _enemyController.TakeTurn();
                 yield return new WaitUntil(() => EnemyHasTakenTurn);
                 UpdateActionText(_enemy, EnemyMoveName); 
                 _currentBattleState = BattleState.PlayerTurn;
             }
         }
 
-        if (Player.Instance.IsDead)
+        if (PlayerController.Instance.IsDead)
         {
             Debug.Log("Player loses");
-            TriggerBattleFinishedEvent(BattleType.Lost);
             ExitBattleMode();
-        } else if (_enemyComponent.IsDead)
+        } else if (_enemyController.IsDead)
         {
             Debug.Log("Player win");
-            TriggerBattleFinishedEvent(levelBattle);
             ExitBattleMode();
         }
 
@@ -200,33 +199,5 @@ public class BattleManager : MonoBehaviour
         }
 
         _updateText.text = $"{turnTakerString} used: {action}!";
-    }
-
-    private void TriggerBattleFinishedEvent(BattleType levelBattle)
-    {
-        switch (levelBattle)
-        {
-            case BattleType.LevelOneBattle:
-                OnLevelOneBattleWon?.Invoke();
-                break;
-            case BattleType.LevelOneBoss:
-                OnLevelOneBossWon?.Invoke();
-                break;
-            case BattleType.LevelTwoBattle:
-                OnLevelTwoBattleWon?.Invoke();
-                break;
-            case BattleType.LevelTwoBoss:
-                OnLevelTwoBossWon?.Invoke();
-                break;
-            case BattleType.LevelThreeBattle:
-                OnLevelThreeBattleWon?.Invoke();
-                break;
-            case BattleType.LevelThreeBoss:
-                OnLevelThreeBossWon?.Invoke();
-                break;
-            case BattleType.Lost:
-                OnBattleLost?.Invoke();
-                break;
-        }
     }
 }

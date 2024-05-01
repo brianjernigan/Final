@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Enemy : MonoBehaviour, ICharacter
+public class EnemyController : MonoBehaviour, ICharacter
 {
     [SerializeField] private GameObject _healthText;
     
@@ -24,8 +24,9 @@ public class Enemy : MonoBehaviour, ICharacter
     public bool IsDead { get; set; }
     public bool IsDefending { get; set; }
     public bool IsStunned { get; set; }
+    public bool IsConfused { get; set; }
 
-    public List<EnemyAbility> Abilities { get; set; } = new();
+    public List<Ability> Abilities { get; set; } = new();
 
     private Attack _attack = new();
     private Defend _defend = new();

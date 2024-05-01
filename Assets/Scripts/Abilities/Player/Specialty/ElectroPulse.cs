@@ -18,8 +18,8 @@ public class ElectroPulse : PlayerAbility
         if (UsesRemaining == 0) return;
         
         player.IsDefending = false;
-        // TODO
-        // Implement move mechanics
+        target.TakeDamage(5);
+        target.IsConfused = true;
         
         EndTurn();
     }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Attack : EnemyAbility
 {
+    public int DamageAmount { get; set; } = 2;
+    
     public Attack()
     {
         Name = "Attack";
@@ -11,7 +13,15 @@ public class Attack : EnemyAbility
     
     public override void Activate(ICharacter enemy, ICharacter player)
     {
-        player.TakeDamage(2);
-        EndTurn();
+        if (enemy.IsConfused)
+        {
+            enemy.TakeDamage(DamageAmount / 2);
+            EndTurn("The enemy hurt itself in confusion");
+            enemy.IsConfused = false;
+            return;
+        }
+        
+        player.TakeDamage(DamageAmount);
+        EndTurn(Name);
     }
 }

@@ -8,15 +8,24 @@ public enum GameState
 {
     Exploration,
     Dialog,
-    Battle
+    Battle,
+    NextLevel,
+    Won,
+    Lost
 }
 
-public class GameStateManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static GameStateManager Instance { get; private set; }
+    public static GameManager Instance { get; private set; }
     
     public GameState CurrentState { get; set; }
+    [SerializeField] private LevelData[] _levelData;
+    public LevelData[] LevelData => _levelData;
+    
+    public delegate void LevelLoadDelegate(LevelData data);
+    public event LevelLoadDelegate OnLevelLoad;
 
+    private LevelData _currentLevelData;
     private void Awake()
     {
         if (Instance == null)
@@ -32,6 +41,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Start()
     {
+        LoadLevel(0);
         ChangeState(GameState.Exploration);
     }
 
@@ -57,6 +67,19 @@ public class GameStateManager : MonoBehaviour
                 Debug.Log("battle");
                 HandleMouseBehavior(state);
                 break;
+            case GameState.NextLevel:
+                HandleMouseBehavior(state);
+                if (_currentLevelData.levelIndex <= 1)
+                {
+                    LoadLevel(_currentLevelData.levelIndex + 1);
+                    ChangeState(GameState.Exploration);
+                }
+                else
+                {
+                    ChangeState(GameState.Won);
+                    // Handle Game Won
+                }
+                break;
         }
     }
 
@@ -72,6 +95,16 @@ public class GameStateManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = false;
                 break;
+            case GameState.NextLevel or GameState.Won or GameState.Lost:
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                break;
         }
+    }
+
+    private void LoadLevel(int index)
+    {
+        _currentLevelData = _levelData[index];
+        OnLevelLoad?.Invoke(_currentLevelData);
     }
 }

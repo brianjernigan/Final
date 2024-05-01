@@ -11,7 +11,14 @@ public class Defend : EnemyAbility
 
     public override void Activate(ICharacter enemy, ICharacter player)
     {
+        if (enemy.IsConfused)
+        {
+            EndTurn("The enemy is confused");
+            enemy.IsConfused = false;
+            return;
+        }
+        
         enemy.IsDefending = true;
-        EndTurn();
+        EndTurn(Name);
     }
 }

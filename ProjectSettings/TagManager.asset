@@ -13,6 +13,9 @@ TagManager:
   - DialogPanel
   - Enemy
   - BossDoor
+  - Boss
+  - Buddy
+  - Environment
   layers:
   - Default
   - TransparentFX

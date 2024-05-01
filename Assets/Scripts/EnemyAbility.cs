@@ -6,9 +6,9 @@ public abstract class EnemyAbility : Ability
 {
     public abstract override void Activate(ICharacter enemy, ICharacter player);
 
-    protected void EndTurn()
+    protected void EndTurn(string turnName)
     {
-        BattleManager.Instance.EnemyMoveName = Name;
+        BattleManager.Instance.EnemyMoveName = turnName;
         BattleManager.Instance.EnemyHasTakenTurn = true;
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class DialogTrigger : MonoBehaviour
 {
-    [SerializeField] private DialogScriptableObject _levelOneScript;
+    [SerializeField] private DialogData _levelOneScript;
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _questArrowOne;
     
@@ -30,7 +30,7 @@ public class DialogTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && SceneManager.GetActiveScene().name == "LevelOne")
         {
-            GameStateManager.Instance.ChangeState(GameState.Dialog);
+            GameManager.Instance.ChangeState(GameState.Dialog);
             DialogManager.Instance.StartDialog(_levelOneScript.lines, DialogType.LevelOneDialog);
         }
     }
@@ -38,8 +38,8 @@ public class DialogTrigger : MonoBehaviour
     private void HandleLevelOneDialogFinished()
     {
         _questArrowOne.SetActive(true);
-        Player.Instance.UnlockAbility(1);
-        GameStateManager.Instance.ChangeState(GameState.Exploration);
+        PlayerController.Instance.UnlockAbility(1);
+        GameManager.Instance.ChangeState(GameState.Exploration);
     }
 
     private void HandleLevelTwoDialogFinished()

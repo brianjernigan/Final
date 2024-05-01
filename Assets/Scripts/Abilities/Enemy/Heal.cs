@@ -11,7 +11,14 @@ public class Heal : EnemyAbility
 
     public override void Activate(ICharacter enemy, ICharacter player)
     {
+        if (enemy.IsConfused)
+        {
+            EndTurn("The enemy is confused");
+            enemy.IsConfused = false;
+            return;
+        }
+        
         enemy.CurrentHealth = Mathf.Max(enemy.MaxHealth, enemy.CurrentHealth + 2);
-        EndTurn();
+        EndTurn(Name);
     }
 }

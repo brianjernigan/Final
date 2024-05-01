@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Player : MonoBehaviour, ICharacter 
+public class PlayerController : MonoBehaviour, ICharacter 
 {
-    public static Player Instance { get; private set; }
+    public static PlayerController Instance { get; private set; }
     
     public string Name { get; set; }
     public int MaxHealth { get; set; } = 100;
@@ -14,8 +14,9 @@ public class Player : MonoBehaviour, ICharacter
     public bool IsDead { get; set; }
     public bool IsDefending { get; set; }
     public bool IsStunned { get; set; }
+    public bool IsConfused { get; set; }
 
-    public List<PlayerAbility> Abilities { get; set; } = new();
+    public List<Ability> Abilities { get; set; } = new();
 
     private LaserBlast _laserBlast = new();
     private EnergyShield _energyShield = new();
