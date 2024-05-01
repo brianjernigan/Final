@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 public enum DialogType
 {
-    LevelOneDialog,
-    LevelTwoDialog,
-    LevelThreeDialog
+    BuddyDialog,
+    EnemyDialog,
+    BossDialog
 }
 
 public class DialogManager : MonoBehaviour
@@ -29,7 +29,7 @@ public class DialogManager : MonoBehaviour
     private Queue<string> _sentences;
     private bool _isTyping;
     public event Action OnDialogFinished;
-    public bool DialogIsFinished { get; set; }
+    public bool DialogIsFinished { get; private set; }
 
     private string _currentSentence;
     private LevelData _currentLevelData;
@@ -83,12 +83,10 @@ public class DialogManager : MonoBehaviour
     {
         _dialogPanel.SetActive(false);
         _fpc.enabled = true;
-        // GameObject.Find(_currentLevelData.npcNames[_dialogIndex]).SetActive(false);
-        // GameObject.Find(_currentLevelData.triggerNames[_dialogIndex]).SetActive(false);
         GameManager.Instance.ChangeState(GameState.Exploration);
     }
 
-    public void StartDialog()
+    public void StartDialog(DialogType dialogType)
     {
         DialogIsFinished = false;
         EnterDialogMode();

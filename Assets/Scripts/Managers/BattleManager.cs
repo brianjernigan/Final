@@ -32,6 +32,8 @@ public class BattleManager : MonoBehaviour
     private EnemyController _enemyController;
     
     private BattleState _currentBattleState;
+    
+    public bool BattleIsFinished { get; set; }
 
     public delegate void BattleFinishedDelegate(bool result);
     public event BattleFinishedDelegate OnBattleFinished;
@@ -87,12 +89,14 @@ public class BattleManager : MonoBehaviour
         GameManager.Instance.ChangeState(GameState.Battle);
         _battlePanel.SetActive(true);
         _fpc.enabled = false;
+        BattleIsFinished = false;
     }
 
     private void ExitBattleMode()
     {
         _battlePanel.SetActive(false);
         _fpc.enabled = true;
+        BattleIsFinished = true;
         GameManager.Instance.ChangeState(GameState.Exploration);
     }
 
@@ -172,9 +176,11 @@ public class BattleManager : MonoBehaviour
 
         if (PlayerController.Instance.IsDead)
         {
+            // Lose
             ExitBattleMode();
         } else if (_enemyController.IsDead)
         {
+            // Win
             ExitBattleMode();
         }
 
