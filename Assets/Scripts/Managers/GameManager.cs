@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
     private void LoadLevel(int index)
     {
         _currentLevelData = _levelData[index];
-        //ResetPlayerPosition();
+        ResetPlayerPosition();
         OnLevelLoad?.Invoke(_currentLevelData);
     }
 
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
 
         if (controller != null)
         {
-            controller.Move(Vector3.up);
+            controller.Move(Vector3.zero);
         }
     }
 }

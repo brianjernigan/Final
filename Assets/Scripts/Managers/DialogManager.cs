@@ -34,7 +34,11 @@ public class DialogManager : MonoBehaviour
     private LevelData _currentLevelData;
     private List<string> _currentDialog;
 
-    private int _dialogIndex;
+    private DialogType _currentDialogType;
+
+    private int _moveToUnlockIndex;
+
+    private bool _hasSpokenToBuddy;
     
     private void Awake()
     {
@@ -69,6 +73,7 @@ public class DialogManager : MonoBehaviour
     {
         _sentences = new Queue<string>();
         _fpc = _player.GetComponent<FirstPersonController>();
+        _continueButton.onClick.RemoveListener(DisplayNextSentence);
         _continueButton.onClick.AddListener(DisplayNextSentence);
     }
 
@@ -82,12 +87,28 @@ public class DialogManager : MonoBehaviour
 
     private void SetCurrentDialog(DialogType dialogType)
     {
-        _currentDialog = dialogType switch
+        switch (dialogType)
         {
-            DialogType.Buddy => _currentLevelData.dialogs[0].lines,
-            DialogType.Boss => _currentLevelData.dialogs[1].lines,
-            _ => _currentDialog
-        };
+            case DialogType.Buddy:
+                if (_currentLevelData.levelIndex == 2 && _hasSpokenToBuddy)
+                {
+                    _currentDialog = _currentLevelData.dialogs[2].lines;
+                }
+                else
+                {
+                    _currentDialog = _currentLevelData.dialogs[0].lines;
+                    if (_currentLevelData.levelIndex == 2)
+                    {
+                        _hasSpokenToBuddy = true;
+                    }
+                }
+                break;
+            case DialogType.Boss:
+                _currentDialog = _currentLevelData.dialogs[1].lines;
+                break;
+        }
+
+        _currentDialogType = dialogType;
     }
 
     private void ExitDialogMode()
@@ -157,8 +178,11 @@ public class DialogManager : MonoBehaviour
     private void HandleDialogFinished()
     {
         ExitDialogMode();
-        _player.GetComponent<PlayerController>().UnlockAbility(_dialogIndex++);
         OnDialogFinished?.Invoke();
+        if (_currentDialogType == DialogType.Buddy)
+        {
+            _player.GetComponent<PlayerController>().UnlockAbility(_moveToUnlockIndex++);
+        }
         DialogIsFinished = true;
     }
 }

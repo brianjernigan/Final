@@ -18,10 +18,12 @@ MonoBehaviour:
   - BuddyTrigger2
   - EnemyTrigger2
   - BossTrigger2
+  - BuddyTriggerFINAL
   npcNames:
   - Buddy2
   - Enemy2
   - Boss2
+  - BuddyFINAL
   objectNames:
   - QuestArrow2
   - BossDoor2
@@ -29,3 +31,4 @@ MonoBehaviour:
   dialogs:
   - {fileID: 11400000, guid: f8e2a7f63c7b55e43b9c061d7c0eedc8, type: 2}
   - {fileID: 11400000, guid: 9dce94ffdf4f425409bf03bca48874f3, type: 2}
+  - {fileID: 11400000, guid: 84c76eb14a00f47cf87b44dd13ffd0b2, type: 2}
