@@ -125,11 +125,7 @@ public class BattleManager : MonoBehaviour
 
     private void InitializeAbilityPanel()
     {
-        // Set unlocked ability buttons active
         ActivateUnlockedAbilityButtons();
-        // Update button texts
-        SetButtonTexts();
-        // Add listener for button press
         AddButtonListeners();
     }
 
@@ -138,43 +134,30 @@ public class BattleManager : MonoBehaviour
         if (_playerController.IsCharging)
         {
             HandleChargingMydoom();
-            return;
         }
-        
-        for (int i = 0; i < _abilityButtons.Length; i++)
-        {
-            var buttonIsActive = _playerController.Abilities[i].IsUnlocked &&
-                                 _playerController.Abilities[i].UsesRemaining > 0;
-            _abilityButtons[i].SetActive(true);
-            _abilityButtons[i].GetComponent<Button>().interactable = true;
-        }
-    }
-    
-    private void HandleChargingMydoom()
-    {
-        if (_playerController.IsCharging)
+        else
         {
             for (int i = 0; i < _abilityButtons.Length; i++)
             {
-                if (i != 7)
-                {
-                    _abilityButtons[i].SetActive(false);
-                }
-                else
-                {
-                    _abilityButtons[i].SetActive(true);
-                    _abilityButtons[i].GetComponent<Button>().interactable = true;
-                    _abilityButtons[i].GetComponent<Button>().GetComponentInChildren<TMP_Text>().text = "Unleash Mydoom";
-                }
+                var buttonIsActive = _playerController.Abilities[i].IsUnlocked &&
+                                     _playerController.Abilities[i].UsesRemaining > 0;
+                _abilityButtons[i].SetActive(true);
+                _abilityButtons[i].GetComponent<Button>().interactable = true;
+                _abilityButtons[i].GetComponentInChildren<TMP_Text>().text = _playerController.Abilities[i].ToString();
             }
         }
     }
 
-    private void SetButtonTexts()
+    private void HandleChargingMydoom()
     {
         for (int i = 0; i < _abilityButtons.Length; i++)
         {
-            _abilityButtons[i].GetComponentInChildren<TMP_Text>().text = _playerController.Abilities[i].ToString();
+            _abilityButtons[i].SetActive(i == 7);
+            if (i == 7)
+            {
+                _abilityButtons[i].GetComponent<Button>().interactable = true;
+                _abilityButtons[i].GetComponentInChildren<TMP_Text>().text = "Unleash Mydoom";
+            }
         }
     }
 
@@ -183,24 +166,19 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < _abilityButtons.Length; i++)
         {
             var buttonIndex = i;
-            _abilityButtons[buttonIndex].GetComponent<Button>().onClick.RemoveAllListeners();
-            _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => OnAbilityButtonPressed(_abilityButtons[buttonIndex], buttonIndex));
+            var button = _abilityButtons[buttonIndex];
+            button.GetComponent<Button>().onClick.RemoveAllListeners();
+            button.GetComponent<Button>().onClick.AddListener(() => OnAbilityButtonPressed(button, buttonIndex));
         }
     }
 
     private void OnAbilityButtonPressed(GameObject button, int buttonIndex)
     {
         _playerController.Abilities[buttonIndex].Activate(_playerController, _enemyController);
-        UpdateButtonText(button, buttonIndex);
+        button.GetComponentInChildren<TMP_Text>().text = _playerController.Abilities[buttonIndex].ToString();
         DeactivateButtons();
-        //HandleChargingMydoom();
     }
 
-    private void UpdateButtonText(GameObject button, int buttonIndex)
-    {
-        button.GetComponentInChildren<TMP_Text>().text = _playerController.Abilities[buttonIndex].ToString();
-    }
-    
     private void DeactivateButtons()
     {
         foreach (var button in _abilityButtons)
