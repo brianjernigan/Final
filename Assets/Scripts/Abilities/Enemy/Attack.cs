@@ -28,8 +28,15 @@ public sealed class Attack : EnemyAbility
             enemy.IsConfused = false;
             return;
         }
+
+        if (player.IsHiding)
+        {
+            EndTurn($"{enemy.Name}'s move missed!");
+            player.IsHiding = false;
+            return;
+        }
         
         player.TakeDamage(_damageAmount);
-        EndTurn($"{enemy.Name} used: {Name}!");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

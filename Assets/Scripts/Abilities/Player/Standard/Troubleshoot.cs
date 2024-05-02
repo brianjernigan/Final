@@ -21,10 +21,16 @@ public class Troubleshoot : PlayerAbility
     public override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
+
+        if (player.IsCharging)
+        {
+            EndTurn(ChargingText);
+            return;
+        }
         
         player.IsDefending = false;
         player.CurrentHealth = Mathf.Min(player.MaxHealth, player.CurrentHealth + healAmount);
         
-        EndTurn();
+        EndTurn($"{MoveText}{Name}");
     }
 }

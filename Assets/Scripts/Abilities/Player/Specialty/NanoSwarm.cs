@@ -20,10 +20,16 @@ public class NanoSwarm : PlayerAbility
     public override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
+
+        if (player.IsCharging)
+        {
+            EndTurn(ChargingText);
+            return;
+        }
         
         player.IsDefending = false;
         enemy.IsSwarmed = true;
         
-        EndTurn();
+        EndTurn($"{MoveText}{Name}");
     }
 }

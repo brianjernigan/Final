@@ -16,11 +16,17 @@ public sealed class ElectroPulse : PlayerAbility
     public override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
+
+        if (player.IsCharging)
+        {
+            EndTurn(ChargingText);
+            return;
+        }
         
         player.IsDefending = false;
         enemy.TakeDamage(5);
         enemy.IsStunned = true;
         
-        EndTurn();
+        EndTurn($"{MoveText}{Name}");
     }
 }

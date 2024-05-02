@@ -25,7 +25,14 @@ public sealed class Defend : EnemyAbility
             return;
         }
         
+        if (player.IsHiding)
+        {
+            EndTurn($"{enemy.Name}'s move missed!");
+            player.IsHiding = false;
+            return;
+        }
+        
         enemy.IsDefending = true;
-        EndTurn($"{enemy.Name} used: {Name}!");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

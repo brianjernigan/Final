@@ -28,7 +28,14 @@ public sealed class Heal : EnemyAbility
             return;
         }
         
+        if (player.IsHiding)
+        {
+            EndTurn($"{enemy.Name}'s move missed!");
+            player.IsHiding = false;
+            return;
+        }
+        
         enemy.CurrentHealth = Mathf.Min(enemy.MaxHealth, enemy.CurrentHealth + _healAmount);
-        EndTurn($"{enemy.Name} used: {Name}!");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

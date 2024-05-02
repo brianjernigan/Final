@@ -18,9 +18,18 @@ public sealed class Mydoom : PlayerAbility
         if (UsesRemaining == 0) return;
         
         player.IsDefending = false;
-        // TODO
-        // Implement move mechanics
-        
-        EndTurn();
+
+        if (!player.IsCharging)
+        {
+            player.IsCharging = true;
+            UsesRemaining--;
+            EndTurn(ChargingText);
+        }
+        else
+        {
+            player.IsCharging = false;
+            enemy.TakeDamage((int)(enemy.CurrentHealth * 0.75f));
+            EndTurn($"{MoveText}{Name}");
+        }
     }
 }

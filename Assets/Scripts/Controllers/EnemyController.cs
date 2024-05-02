@@ -46,6 +46,8 @@ public class EnemyController : MonoBehaviour, ICharacter
     public bool IsStunned { get; set; }
     public bool IsConfused { get; set; }
     public bool IsSwarmed { get; set; }
+    public bool IsHiding { get; set; }
+    public bool IsCharging { get; set; }
 
     public List<Ability> Abilities { get; } = new();
 

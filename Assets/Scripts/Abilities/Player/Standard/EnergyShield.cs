@@ -17,8 +17,14 @@ public sealed class EnergyShield : PlayerAbility
     {
         if (UsesRemaining == 0) return;
 
+        if (player.IsCharging)
+        {
+            EndTurn(ChargingText);
+            return;
+        }
+
         player.IsDefending = true;
 
-        EndTurn();
+        EndTurn($"{MoveText}{Name}");
     }
 }

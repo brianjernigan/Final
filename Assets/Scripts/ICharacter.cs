@@ -13,6 +13,8 @@ public interface ICharacter
     bool IsStunned { get; set; }
     bool IsConfused { get; set; }
     bool IsSwarmed { get; set; }
+    bool IsHiding { get; set; }
+    bool IsCharging { get; set; }
     
     void TakeDamage(int amount);
     void ApplyStatusEffect();

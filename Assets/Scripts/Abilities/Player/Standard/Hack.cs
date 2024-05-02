@@ -16,10 +16,16 @@ public sealed class Hack : PlayerAbility
     public override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
+
+        if (player.IsCharging)
+        {
+            EndTurn(ChargingText);
+            return;
+        }
         
         player.IsDefending = false;
         enemy.IsConfused = true;
 
-        EndTurn();
+        EndTurn($"{MoveText}{Name}");
     }
 }

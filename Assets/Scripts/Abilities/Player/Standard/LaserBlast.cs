@@ -16,10 +16,16 @@ public sealed class LaserBlast : PlayerAbility
     public override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
+
+        if (player.IsCharging)
+        {
+            EndTurn(ChargingText);
+            return;
+        }
         
         player.IsDefending = false;
         enemy.TakeDamage(10);
 
-        EndTurn();
+        EndTurn($"{MoveText}{Name}");
     }
 }

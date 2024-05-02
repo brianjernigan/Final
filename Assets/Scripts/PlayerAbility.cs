@@ -5,16 +5,16 @@ using UnityEngine;
 public abstract class PlayerAbility : Ability
 {
     protected int MaxUses { get; set; }
-    public int UsesRemaining { get; set; }
+    public int UsesRemaining { get; protected set; }
     public bool IsUnlocked { get; set; }
-    private const string MoveText = "Player used: ";
+    protected const string MoveText = "Player used: ";
+    protected const string ChargingText = "Player is charging Mydoom!";
 
     public abstract override void Activate(ICharacter player, ICharacter enemy);
 
-    protected void EndTurn()
+    public override void EndTurn(string turnText)
     {
-        UsesRemaining--;
-        BattleManager.Instance.PlayerMoveText = MoveText + Name + "!";
+        BattleManager.Instance.PlayerMoveText = turnText;
         BattleManager.Instance.PlayerHasTakenTurn = true;
     }
 
