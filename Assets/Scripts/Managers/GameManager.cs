@@ -103,6 +103,28 @@ public class GameManager : MonoBehaviour
     private void LoadLevel(int index)
     {
         _currentLevelData = _levelData[index];
+        ResetPlayerPosition();
         OnLevelLoad?.Invoke(_currentLevelData);
+    }
+
+    private void ResetPlayerPosition()
+    {
+        var resetPosition = new Vector3(6, 0, -8);
+        var controller = _player.GetComponent<CharacterController>();
+        if (controller != null)
+        {
+            controller.enabled = false;
+            _player.transform.position = resetPosition;
+            controller.enabled = true;
+        }
+        else
+        {
+            _player.transform.position = resetPosition;
+        }
+
+        if (controller != null)
+        {
+            controller.Move(Vector3.up);
+        }
     }
 }

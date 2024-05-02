@@ -156,8 +156,9 @@ public class BattleManager : MonoBehaviour
     private void InitializeButtons(int buttonIndex)
     {
         if (_playerController.Abilities[buttonIndex] is not PlayerAbility ability) throw new NullReferenceException("Not a player ability");
-        
-        _abilityButtons[buttonIndex].SetActive(ability.IsUnlocked);
+
+        var buttonIsActive = ability.IsUnlocked && ability.UsesRemaining > 0;
+        _abilityButtons[buttonIndex].SetActive(buttonIsActive);
         _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => ability.Activate(_playerController, _enemyController));
         _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], ability));
         _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = ability.ToString();

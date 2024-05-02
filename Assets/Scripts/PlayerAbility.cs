@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class PlayerAbility : Ability
 {
     protected int MaxUses { get; set; }
-    protected int UsesRemaining { get; set; }
+    public int UsesRemaining { get; set; }
     public bool IsUnlocked { get; set; }
     private const string MoveText = "Player used: ";
 
