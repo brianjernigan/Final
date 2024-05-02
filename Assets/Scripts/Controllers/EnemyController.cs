@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour, ICharacter
     public bool IsHiding { get; set; }
     public bool IsCharging { get; set; }
 
-    public List<Ability> Abilities { get; } = new();
+    public List<EnemyAbility> Abilities { get; } = new();
 
     private bool _isBoss;
 
@@ -157,8 +157,6 @@ public class EnemyController : MonoBehaviour, ICharacter
         var randomNumber = Random.Range(0, Abilities.Count);
 
         Abilities[randomNumber].Activate(_enemyEntity, _playerEntity);
-
-        BattleManager.Instance.UpdateHealthText(gameObject);
     }
     
     private IEnumerator FlashDamageColor()
@@ -179,7 +177,6 @@ public class EnemyController : MonoBehaviour, ICharacter
         }
         
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-        BattleManager.Instance.UpdateHealthText(gameObject);
         StartCoroutine(FlashDamageColor());
 
         if (CurrentHealth <= 0)

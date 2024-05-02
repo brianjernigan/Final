@@ -28,7 +28,8 @@ public sealed class Mydoom : PlayerAbility
         else
         {
             player.IsCharging = false;
-            enemy.TakeDamage((int)(enemy.CurrentHealth * 0.75f));
+            enemy.IsDefending = false;
+            enemy.TakeDamage((int)(enemy.MaxHealth * 0.75f));
             EndTurn($"{MoveText}{Name}!");
         }
     }

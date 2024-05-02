@@ -7,8 +7,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, ICharacter 
 {
     public static PlayerController Instance { get; private set; }
-    
-    public string Name { get; set; }
+
+    public string Name { get; set; } = "Player";
     public int MaxHealth { get; set; } = 100;
     public int CurrentHealth { get; set; }
     public bool IsDead { get; set; }
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     public bool IsHiding { get; set; }
     public bool IsCharging { get; set; }
 
-    public List<Ability> Abilities { get; set; } = new();
+    public List<PlayerAbility> Abilities { get; set; } = new();
 
     private readonly LaserBlast _laserBlast = new();
     private readonly EnergyShield _energyShield = new();
@@ -93,7 +93,6 @@ public class PlayerController : MonoBehaviour, ICharacter
         }
         
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-        BattleManager.Instance.UpdateHealthText(gameObject);
 
         if (CurrentHealth <= 0)
         {
