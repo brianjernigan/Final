@@ -141,8 +141,8 @@ public class BattleManager : MonoBehaviour
             {
                 var buttonIsActive = _playerController.Abilities[i].IsUnlocked &&
                                      _playerController.Abilities[i].UsesRemaining > 0;
-                _abilityButtons[i].SetActive(true);
-                _abilityButtons[i].GetComponent<Button>().interactable = true;
+                _abilityButtons[i].SetActive(buttonIsActive);
+                _abilityButtons[i].GetComponent<Button>().interactable = buttonIsActive;
                 _abilityButtons[i].GetComponentInChildren<TMP_Text>().text = _playerController.Abilities[i].ToString();
             }
         }

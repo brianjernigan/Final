@@ -34,7 +34,7 @@ public class DialogManager : MonoBehaviour
     private LevelData _currentLevelData;
     private List<string> _currentDialog;
 
-    private int _dialogIndex = 0;
+    private int _dialogIndex;
     
     private void Awake()
     {
