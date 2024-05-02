@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectroPulse : PlayerAbility
+public sealed class ElectroPulse : PlayerAbility
 {
     public ElectroPulse()
     {
@@ -19,7 +19,7 @@ public class ElectroPulse : PlayerAbility
         
         player.IsDefending = false;
         enemy.TakeDamage(5);
-        enemy.IsConfused = true;
+        enemy.IsStunned = true;
         
         EndTurn();
     }

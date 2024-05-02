@@ -5,12 +5,15 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class Troubleshoot : PlayerAbility 
+public class Troubleshoot : PlayerAbility
 {
+    private int healAmount;
+    
     public Troubleshoot()
     {
         Name = "Troubleshoot";
         MaxUses = 15;
+        healAmount = 5;
         UsesRemaining = MaxUses;
         IsUnlocked = true;
     }
@@ -20,7 +23,7 @@ public class Troubleshoot : PlayerAbility
         if (UsesRemaining == 0) return;
         
         player.IsDefending = false;
-        player.CurrentHealth = Mathf.Max(player.MaxHealth, player.CurrentHealth + 5);
+        player.CurrentHealth = Mathf.Min(player.MaxHealth, player.CurrentHealth + healAmount);
         
         EndTurn();
     }

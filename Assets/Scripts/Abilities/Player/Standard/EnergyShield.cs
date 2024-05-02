@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnergyShield : PlayerAbility
+public sealed class EnergyShield : PlayerAbility
 {
     public EnergyShield()
     {

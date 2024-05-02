@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Defend : EnemyAbility
+public sealed class Defend : EnemyAbility
 {
     public Defend()
     {
@@ -11,6 +11,13 @@ public class Defend : EnemyAbility
 
     public override void Activate(ICharacter enemy, ICharacter player)
     {
+        if (enemy.IsStunned)
+        {
+            EndTurn($"{enemy.Name} is stunned!");
+            enemy.IsStunned = false;
+            return;
+        }
+        
         if (enemy.IsConfused)
         {
             EndTurn($"{enemy.Name} is confused!");

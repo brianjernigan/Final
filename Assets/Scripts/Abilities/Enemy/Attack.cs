@@ -2,27 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : EnemyAbility
+public sealed class Attack : EnemyAbility
 {
-    public int damageAmount;
+    private readonly int _damageAmount;
     
     public Attack(int amount)
     {
         Name = "Attack";
-        damageAmount = amount;
+        _damageAmount = amount;
     }
     
     public override void Activate(ICharacter enemy, ICharacter player)
     {
+        if (enemy.IsStunned)
+        {
+            EndTurn($"{enemy.Name} is stunned!");
+            enemy.IsStunned = false;
+            return;
+        }
+        
         if (enemy.IsConfused)
         {
-            enemy.TakeDamage(damageAmount / 2);
+            enemy.TakeDamage(_damageAmount / 2);
             EndTurn($"{enemy.Name} hurt itself in confusion!");
             enemy.IsConfused = false;
             return;
         }
         
-        player.TakeDamage(damageAmount);
+        player.TakeDamage(_damageAmount);
         EndTurn($"{enemy.Name} used: {Name}!");
     }
 }

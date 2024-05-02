@@ -33,6 +33,7 @@ public class EnemyController : MonoBehaviour, ICharacter
     private MeshRenderer _meshRenderer;
 
     private GameObject _player;
+    private PlayerController _playerController;
     
     private ICharacter _playerEntity;
     private ICharacter _enemyEntity;
@@ -44,6 +45,7 @@ public class EnemyController : MonoBehaviour, ICharacter
     public bool IsDefending { get; set; }
     public bool IsStunned { get; set; }
     public bool IsConfused { get; set; }
+    public bool IsSwarmed { get; set; }
 
     public List<Ability> Abilities { get; } = new();
 
@@ -86,6 +88,7 @@ public class EnemyController : MonoBehaviour, ICharacter
         _player = GameObject.FindGameObjectWithTag("Player");
         _meshRenderer = GetComponent<MeshRenderer>();
         _originalMat = _meshRenderer.material;
+        _playerController = _player.GetComponent<PlayerController>();
         _playerEntity = _player.GetComponent<ICharacter>();
     }
     
@@ -134,8 +137,21 @@ public class EnemyController : MonoBehaviour, ICharacter
         Abilities.Add(_heal);
     }
     
-    public void TakeTurn()
+    public IEnumerator TakeTurn()
     {
+        if (IsSwarmed)
+        {
+            BattleManager.Instance.UpdateActionText($"{Name} took damage from Nano Swarm!");
+            if (_playerController.Abilities.Find(ability => ability.Name == "Nano Swarm") is NanoSwarm nanoSwarm)
+            {
+                TakeDamage(nanoSwarm.DamagePerTurn);
+            }
+
+            yield return new WaitForSeconds(1.25f);
+            
+            IsSwarmed = false;
+        }
+        
         var randomNumber = Random.Range(0, Abilities.Count);
 
         Abilities[randomNumber].Activate(_enemyEntity, _playerEntity);
@@ -154,7 +170,7 @@ public class EnemyController : MonoBehaviour, ICharacter
 
     public void TakeDamage(int amount)
     {
-        if (IsDefending)
+        if (IsDefending && !IsSwarmed)
         {
             amount /= 2;
             IsDefending = false;

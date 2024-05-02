@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mydoom : PlayerAbility
+public sealed class Mydoom : PlayerAbility
 {
     public Mydoom()
     {

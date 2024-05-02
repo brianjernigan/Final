@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserBlast : PlayerAbility
+public sealed class LaserBlast : PlayerAbility
 {
     public LaserBlast()
     {

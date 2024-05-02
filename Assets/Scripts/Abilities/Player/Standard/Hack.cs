@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hack : PlayerAbility
+public sealed class Hack : PlayerAbility
 {
     public Hack()
     {
@@ -18,8 +18,7 @@ public class Hack : PlayerAbility
         if (UsesRemaining == 0) return;
         
         player.IsDefending = false;
-        // TODO
-        // Implement move mechanics
+        enemy.IsConfused = true;
 
         EndTurn();
     }

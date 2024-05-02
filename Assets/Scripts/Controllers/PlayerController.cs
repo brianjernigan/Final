@@ -15,17 +15,18 @@ public class PlayerController : MonoBehaviour, ICharacter
     public bool IsDefending { get; set; }
     public bool IsStunned { get; set; }
     public bool IsConfused { get; set; }
+    public bool IsSwarmed { get; set; }
 
     public List<Ability> Abilities { get; set; } = new();
 
-    private LaserBlast _laserBlast = new();
-    private EnergyShield _energyShield = new();
-    private Hack _hack = new();
-    private Troubleshoot _troubleshoot = new();
-    private ElectroPulse _electroPulse = new();
-    private NanoSwarm _nanoSwarm = new();
-    private Incognito _incognito = new();
-    private Mydoom _mydoom = new();
+    private readonly LaserBlast _laserBlast = new();
+    private readonly EnergyShield _energyShield = new();
+    private readonly Hack _hack = new();
+    private readonly Troubleshoot _troubleshoot = new();
+    private readonly ElectroPulse _electroPulse = new();
+    private readonly NanoSwarm _nanoSwarm = new();
+    private readonly Incognito _incognito = new();
+    private readonly Mydoom _mydoom = new();
 
     [SerializeField] private GameObject _healthText;
     

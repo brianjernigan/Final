@@ -220,13 +220,13 @@ public class BattleManager : MonoBehaviour
         EnemyHasTakenTurn = false;
         DeactivateButtons();
         yield return new WaitForSeconds(1.25f);
-        _enemyController.TakeTurn();
+        StartCoroutine(_enemyController.TakeTurn());
         yield return new WaitUntil(() => EnemyHasTakenTurn);
         UpdateActionText(EnemyMoveText); 
         _currentBattleState = BattleState.PlayerTurn;
     }
 
-    private void UpdateActionText(string actionText)
+    public void UpdateActionText(string actionText)
     {
         _updateText.text = actionText;
     }
