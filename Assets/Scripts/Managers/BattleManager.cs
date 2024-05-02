@@ -33,9 +33,12 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject _player;
     private PlayerController _playerController;
     private FirstPersonController _fpc;
+    [SerializeField] private TMP_Text _playerHealthText;
     
+    [Header("Enemy")]
     private GameObject _enemy;
     private EnemyController _enemyController;
+    [SerializeField] private TMP_Text _enemyHealthText;
     
     private BattleState _currentBattleState;
     
@@ -92,8 +95,9 @@ public class BattleManager : MonoBehaviour
     {
         GameManager.Instance.ChangeState(GameState.Battle);
         SetCurrentEnemy(battleType);
-        _enemyController.UpdateHealthText();
+        UpdateActionText("");
         _battlePanel.SetActive(true);
+        UpdateHealthText(_enemy);
         _fpc.enabled = false;
         BattleIsFinished = false;
     }
@@ -104,13 +108,13 @@ public class BattleManager : MonoBehaviour
         {
             case BattleType.Enemy:
                 _enemy = GameObject.Find(_currentLevelData.npcNames[1]);
-                _enemyController = _enemy.GetComponent<EnemyController>();
                 break;
             case BattleType.Boss:
                 _enemy = GameObject.Find(_currentLevelData.npcNames[2]);
-                _enemyController = _enemy.GetComponent<EnemyController>();
                 break;
         }
+        
+        _enemyController = _enemy.GetComponent<EnemyController>();
     }
 
     private void ExitBattleMode()
@@ -151,7 +155,7 @@ public class BattleManager : MonoBehaviour
 
     private void InitializeButtons(int buttonIndex)
     {
-        if (PlayerController.Instance.Abilities[buttonIndex] is not PlayerAbility ability) throw new NullReferenceException("Not a player ability");
+        if (_playerController.Abilities[buttonIndex] is not PlayerAbility ability) throw new NullReferenceException("Not a player ability");
         
         _abilityButtons[buttonIndex].SetActive(ability.IsUnlocked);
         _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => ability.Activate(_playerController, _enemyController));
@@ -174,42 +178,71 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleRoutine()
     {
-        while (!PlayerController.Instance.IsDead && !_enemyController.IsDead)
+        while (!_playerController.IsDead && !_enemyController.IsDead)
         {
-            if (_currentBattleState == BattleState.PlayerTurn)
+            switch (_currentBattleState)
             {
-                PlayerHasTakenTurn = false;
-                ActivateButtons();
-                yield return new WaitUntil(() => PlayerHasTakenTurn);
-                UpdateActionText(PlayerMoveText);
-                _currentBattleState = BattleState.EnemyTurn;
-            } else if (_currentBattleState == BattleState.EnemyTurn)
+                case BattleState.PlayerTurn:
+                    yield return StartCoroutine(PlayerTurnRoutine());
+                    break;
+                case BattleState.EnemyTurn:
+                    yield return StartCoroutine(EnemyTurnRoutine());
+                    break;
+            }
+            
+            if (_playerController.IsDead)
             {
-                EnemyHasTakenTurn = false;
-                DeactivateButtons();
-                yield return new WaitForSeconds(1.25f);
-                _enemyController.TakeTurn();
-                yield return new WaitUntil(() => EnemyHasTakenTurn);
-                UpdateActionText(EnemyMoveText); 
-                _currentBattleState = BattleState.PlayerTurn;
+                // Lose
+                ExitBattleMode();
+            } 
+        
+            if (_enemyController.IsDead)
+            {
+                // Win
+                ExitBattleMode();
             }
         }
+    }
+    
 
-        if (PlayerController.Instance.IsDead)
-        {
-            // Lose
-            ExitBattleMode();
-        } else if (_enemyController.IsDead)
-        {
-            // Win
-            ExitBattleMode();
-        }
+    private IEnumerator PlayerTurnRoutine()
+    {
+        PlayerHasTakenTurn = false;
+        ActivateButtons();
+        yield return new WaitUntil(() => PlayerHasTakenTurn);
+        UpdateActionText(PlayerMoveText);
+        _currentBattleState = BattleState.EnemyTurn;
+    }
 
-        yield return null;
+    private IEnumerator EnemyTurnRoutine()
+    {
+        EnemyHasTakenTurn = false;
+        DeactivateButtons();
+        yield return new WaitForSeconds(1.25f);
+        _enemyController.TakeTurn();
+        yield return new WaitUntil(() => EnemyHasTakenTurn);
+        UpdateActionText(EnemyMoveText); 
+        _currentBattleState = BattleState.PlayerTurn;
     }
 
     private void UpdateActionText(string actionText)
     {
         _updateText.text = actionText;
+    }
+
+    public void UpdateHealthText(GameObject affected)
+    {
+        TMP_Text textObject;
+        
+        if (affected == _player)
+        {
+            textObject = _playerHealthText;
+            textObject.text = $"{_playerController.Name} Health: {_playerController.CurrentHealth}";
+        } 
+        else if (affected == _enemy)
+        {
+            textObject = _enemyHealthText;
+            textObject.text = $"{_enemyController.Name} Health: {_enemyController.CurrentHealth}";
+        }
     }
 }

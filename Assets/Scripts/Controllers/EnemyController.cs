@@ -1,21 +1,38 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
+public class Enemy
+{
+    public string name;
+    public int maxHealth;
+    public Attack attack;
+    public Defend defend;
+    public Heal heal;
+
+    public Enemy(string enemyName, int enemyHealth, int attackPower, int healPower)
+    {
+        name = enemyName;
+        maxHealth = enemyHealth;
+        attack = new Attack(attackPower);
+        heal = new Heal(healPower);
+        defend = new Defend();
+    }
+}
+
 public class EnemyController : MonoBehaviour, ICharacter
 {
-    [SerializeField] private GameObject _healthText;
-    
     [SerializeField] private Material _damageMat;
     private Material _originalMat;
     private MeshRenderer _meshRenderer;
 
-    [SerializeField] private GameObject _player;
+    private GameObject _player;
     
     private ICharacter _playerEntity;
     private ICharacter _enemyEntity;
@@ -28,17 +45,86 @@ public class EnemyController : MonoBehaviour, ICharacter
     public bool IsStunned { get; set; }
     public bool IsConfused { get; set; }
 
-    public List<Ability> Abilities { get; set; } = new();
+    public List<Ability> Abilities { get; } = new();
 
-    private Attack _attack = new();
-    private Defend _defend = new();
-    private Heal _heal = new();
+    private bool _isBoss;
+
+    private int LevelIndex => DetermineLevelIndex();
+
+    private Attack _attack;
+    private Defend _defend;
+    private Heal _heal;
     
-    private void InitializeComponents()
+    private void Awake()
     {
+        InitializeScriptComponents();
+        InitializeEnemy();
+    }
+
+    private int DetermineLevelIndex()
+    {
+        if (SceneManager.GetActiveScene().name.Contains("0"))
+        {
+            return 0;
+        }
+
+        if (SceneManager.GetActiveScene().name.Contains("1"))
+        {
+            return 1;
+        }
+
+        if (SceneManager.GetActiveScene().name.Contains("2"))
+        {
+            return 2;
+        }
+
+        throw new ArgumentException("Not a valid level. Enemy not configured.");
+    }
+    
+    private void InitializeScriptComponents()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player");
         _meshRenderer = GetComponent<MeshRenderer>();
         _originalMat = _meshRenderer.material;
         _playerEntity = _player.GetComponent<ICharacter>();
+    }
+    
+    private void InitializeEnemy()
+    {
+        _enemyEntity = GetComponent<ICharacter>();
+        _isBoss = IsEnemyBoss();
+
+        ConfigureEnemy();
+        AddAbilities();
+    }
+    
+    private bool IsEnemyBoss()
+    {
+        var enemyName = gameObject.name;
+        return enemyName.Contains("Boss");
+    }
+
+    private void ConfigureEnemy()
+    {
+        Dictionary<(int, bool), Enemy> enemyConfiguration = new()
+        {
+            // Standard enemies
+            { (0, false), new Enemy("Beeboop",10, 3, 2) },
+            { (1, false), new Enemy("B2J2",15, 6, 4) },
+            { (2, false), new Enemy("BJ3396", 20,9, 6) },
+            // Bosses
+            { (0, true), new Enemy("Awesome-O",30, 6, 4) },
+            { (1, true), new Enemy("HAL", 35, 12, 8) },
+            { (2, true), new Enemy("T-1000",40, 18, 12) }
+        };
+
+        if (!enemyConfiguration.TryGetValue((LevelIndex, _isBoss), out var currentEnemy)) return;
+        Name = currentEnemy.name;
+        MaxHealth = currentEnemy.maxHealth;
+        _attack = currentEnemy.attack;
+        _heal = currentEnemy.heal;
+        _defend = currentEnemy.defend;
+        CurrentHealth = MaxHealth;
     }
 
     private void AddAbilities()
@@ -48,80 +134,13 @@ public class EnemyController : MonoBehaviour, ICharacter
         Abilities.Add(_heal);
     }
     
-    private void Awake()
-    {
-        InitializeComponents();
-        InitializeEnemy();
-    }
-
-    private void DetermineName()
-    {
-        var enemyName = gameObject.name;
-        var enemyIsBoss = enemyName.Contains("Boss");
-        if (!enemyIsBoss)
-        {
-            if (SceneManager.GetActiveScene().name.Contains("0"))
-            {
-                Name = "XYZ900";
-            }
-
-            if (SceneManager.GetActiveScene().name.Contains("1"))
-            {
-                Name = "ABC4000";
-            }
-
-            if (SceneManager.GetActiveScene().name.Contains("2"))
-            {
-                Name = "Jimmy";
-            }
-        } 
-        else 
-        {
-            if (SceneManager.GetActiveScene().name.Contains("0"))
-            {
-                Name = "Awesome-O";
-            }
-
-            if (SceneManager.GetActiveScene().name.Contains("1"))
-            {
-                Name = "Skynet";
-            }
-
-            if (SceneManager.GetActiveScene().name.Contains("2"))
-            {
-                Name = "T-1000";
-            }
-        }
-    }
-
-    private void InitializeEnemy()
-    {
-        _enemyEntity = GetComponent<ICharacter>();
-        InitializeHealth();
-        DetermineName();
-        AddAbilities();
-    }
-
-    private void InitializeHealth()
-    {
-        if (gameObject.name.Contains("Enemy"))
-        {
-            MaxHealth = 20;
-        } else if (gameObject.name.Contains("Boss"))
-        {
-            MaxHealth = 50;
-        }
-
-        CurrentHealth = MaxHealth;
-    }
-    
     public void TakeTurn()
     {
         var randomNumber = Random.Range(0, Abilities.Count);
 
         Abilities[randomNumber].Activate(_enemyEntity, _playerEntity);
 
-        UpdateHealthText();
+        BattleManager.Instance.UpdateHealthText(gameObject);
     }
     
     private IEnumerator FlashDamageColor()
@@ -129,11 +148,6 @@ public class EnemyController : MonoBehaviour, ICharacter
         _meshRenderer.material = _damageMat;
         yield return new WaitForSeconds(0.1f);
         _meshRenderer.material = _originalMat;
-    }
-
-    public void UpdateHealthText()
-    {
-        _healthText.GetComponent<TMP_Text>().text = $"{Name} Health: {CurrentHealth}";
     }
     
     #region ICharacterImplementation
@@ -147,12 +161,13 @@ public class EnemyController : MonoBehaviour, ICharacter
         }
         
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-        UpdateHealthText();
+        BattleManager.Instance.UpdateHealthText(gameObject);
         StartCoroutine(FlashDamageColor());
 
         if (CurrentHealth <= 0)
         {
             IsDead = true;
+            BattleManager.Instance.EnemyHasTakenTurn = true;
         }
     }
 

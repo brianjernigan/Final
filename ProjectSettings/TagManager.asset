@@ -16,6 +16,9 @@ TagManager:
   - Boss
   - Buddy
   - Environment
+  - Coin
+  - EnemyHealthText
+  - GameCanvas
   layers:
   - Default
   - TransparentFX

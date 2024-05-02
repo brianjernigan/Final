@@ -16,9 +16,9 @@ public class TriggerScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var triggerName = gameObject.name;
-        
         if (!other.CompareTag("Player")) return;
+        
+        var triggerName = gameObject.name;
         
         if (triggerName.Contains(BuddyString))
         {

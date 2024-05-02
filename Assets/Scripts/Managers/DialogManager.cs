@@ -33,6 +33,8 @@ public class DialogManager : MonoBehaviour
     private string _currentSentence;
     private LevelData _currentLevelData;
     private List<string> _currentDialog;
+
+    private int _dialogIndex = 0;
     
     private void Awake()
     {
@@ -155,6 +157,7 @@ public class DialogManager : MonoBehaviour
     private void HandleDialogFinished()
     {
         ExitDialogMode();
+        _player.GetComponent<PlayerController>().UnlockAbility(_dialogIndex++);
         OnDialogFinished?.Invoke();
         DialogIsFinished = true;
     }

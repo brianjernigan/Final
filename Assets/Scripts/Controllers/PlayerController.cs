@@ -45,16 +45,16 @@ public class PlayerController : MonoBehaviour, ICharacter
     {
         switch (abilityNumber)
         {
-            case (1):
+            case 0:
                 _electroPulse.IsUnlocked = true;
                 break;
-            case (2):
+            case 1:
                 _nanoSwarm.IsUnlocked = true;
                 break;
-            case (3):
+            case 2:
                 _incognito.IsUnlocked = true;
                 break;
-            case (4):
+            case 3:
                 _mydoom.IsUnlocked = true;
                 break;
         }
@@ -76,13 +76,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     private void Start()
     {
         AddAbilities();
-        transform.position = new Vector3(6, 0, -8);
         CurrentHealth = MaxHealth;
-    }
-
-    public void UpdateHealthText(GameObject textObject)
-    {
-        textObject.GetComponent<TMP_Text>().text = $"{Name} Health: {CurrentHealth}";
     }
     
     #region ICharacterImplementation
@@ -96,7 +90,7 @@ public class PlayerController : MonoBehaviour, ICharacter
         }
         
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-        UpdateHealthText(_healthText);
+        BattleManager.Instance.UpdateHealthText(gameObject);
 
         if (CurrentHealth <= 0)
         {

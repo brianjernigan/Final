@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
 public enum GameState
@@ -17,11 +18,10 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    
+
+    [SerializeField] private GameObject _player;
     public GameState CurrentState { get; set; }
     [SerializeField] private LevelData[] _levelData;
-    public LevelData[] LevelData => _levelData;
-    
     public delegate void LevelLoadDelegate(LevelData data);
     public event LevelLoadDelegate OnLevelLoad;
 
@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
                 HandleMouseBehavior(state);
                 if (_currentLevelData.levelIndex <= 1)
                 {
+                    SceneManager.LoadScene($"Level{_currentLevelData.levelIndex + 1}");
                     LoadLevel(_currentLevelData.levelIndex + 1);
                     ChangeState(GameState.Exploration);
                 }

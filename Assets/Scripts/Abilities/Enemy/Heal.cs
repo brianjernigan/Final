@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Heal : EnemyAbility
 {
-    public Heal()
+    public int healAmount;
+    
+    public Heal(int amount)
     {
         Name = "Heal";
+        healAmount = amount;
     }
 
     public override void Activate(ICharacter enemy, ICharacter player)
@@ -18,7 +21,7 @@ public class Heal : EnemyAbility
             return;
         }
         
-        enemy.CurrentHealth = Mathf.Max(enemy.MaxHealth, enemy.CurrentHealth + 2);
+        enemy.CurrentHealth = Mathf.Min(enemy.MaxHealth, enemy.CurrentHealth + healAmount);
         EndTurn($"{enemy.Name} used: {Name}!");
     }
 }
