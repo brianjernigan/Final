@@ -25,6 +25,7 @@ MonoBehaviour:
   objectNames:
   - QuestArrow0
   - BossDoor0
+  - Coin0
   dialogs:
   - {fileID: 11400000, guid: 10762f2e03e358340b6b06a5daaa8ae1, type: 2}
   - {fileID: 11400000, guid: 8744ec01ad66d3349804861b23446e9c, type: 2}

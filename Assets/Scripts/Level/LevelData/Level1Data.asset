@@ -15,7 +15,17 @@ MonoBehaviour:
   levelName: Level1
   levelIndex: 1
   triggerNames:
-  - 
-  npcNames: []
-  objectNames: []
-  dialogs: []
+  - BuddyTrigger1
+  - EnemyTrigger1
+  - BossTrigger1
+  npcNames:
+  - Buddy1
+  - Enemy1
+  - Boss1
+  objectNames:
+  - QuestArrow1
+  - BossDoor1
+  - Coin1
+  dialogs:
+  - {fileID: 11400000, guid: 7adda8c5be4b60243887561cd155f7a2, type: 2}
+  - {fileID: 11400000, guid: 509a2e38d954f6b4a81e1db534c20a99, type: 2}
