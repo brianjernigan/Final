@@ -24,7 +24,8 @@ public sealed class EnergyShield : PlayerAbility
         }
 
         player.IsDefending = true;
-
-        EndTurn($"{MoveText}{Name}");
+        UsesRemaining--;
+        
+        EndTurn($"{MoveText}{Name}!");
     }
 }

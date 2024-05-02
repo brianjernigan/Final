@@ -24,8 +24,9 @@ public sealed class Incognito : PlayerAbility
         }
         
         player.IsDefending = false;
+        UsesRemaining--;
         player.IsHiding = true;
         
-        EndTurn($"{MoveText}{Name}");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

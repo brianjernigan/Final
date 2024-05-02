@@ -24,9 +24,10 @@ public sealed class ElectroPulse : PlayerAbility
         }
         
         player.IsDefending = false;
+        UsesRemaining--;
         enemy.TakeDamage(5);
         enemy.IsStunned = true;
         
-        EndTurn($"{MoveText}{Name}");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

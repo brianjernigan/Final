@@ -158,7 +158,8 @@ public class BattleManager : MonoBehaviour
         if (_playerController.Abilities[buttonIndex] is not PlayerAbility ability) throw new NullReferenceException("Not a player ability");
 
         var buttonIsActive = ability.IsUnlocked && ability.UsesRemaining > 0;
-        _abilityButtons[buttonIndex].SetActive(buttonIsActive);
+        var testing = ability.UsesRemaining > 0;
+        _abilityButtons[buttonIndex].SetActive(testing);
         _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => ability.Activate(_playerController, _enemyController));
         _abilityButtons[buttonIndex].GetComponent<Button>().onClick.AddListener(() => UpdateButtonText(_abilityButtons[buttonIndex], ability));
         _abilityButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text = ability.ToString();
@@ -209,7 +210,16 @@ public class BattleManager : MonoBehaviour
     private IEnumerator PlayerTurnRoutine()
     {
         PlayerHasTakenTurn = false;
-        ActivateButtons();
+        if (!_playerController.IsCharging)
+        {
+            ActivateButtons();
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.25f);
+            PlayerHasTakenTurn = true;
+        }
+        
         yield return new WaitUntil(() => PlayerHasTakenTurn);
         UpdateActionText(PlayerMoveText);
         _currentBattleState = BattleState.EnemyTurn;
@@ -219,7 +229,6 @@ public class BattleManager : MonoBehaviour
     {
         EnemyHasTakenTurn = false;
         DeactivateButtons();
-        yield return new WaitForSeconds(1.25f);
         StartCoroutine(_enemyController.TakeTurn());
         yield return new WaitUntil(() => EnemyHasTakenTurn);
         UpdateActionText(EnemyMoveText); 

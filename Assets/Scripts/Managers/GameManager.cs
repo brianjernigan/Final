@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
     private void LoadLevel(int index)
     {
         _currentLevelData = _levelData[index];
-        ResetPlayerPosition();
+        //ResetPlayerPosition();
         OnLevelLoad?.Invoke(_currentLevelData);
     }
 

@@ -14,7 +14,7 @@ public class NanoSwarm : PlayerAbility
         MaxUses = 10;
         UsesRemaining = MaxUses;
         IsUnlocked = false;
-        DamagePerTurn = 5;
+        DamagePerTurn = 3;
     }
 
     public override void Activate(ICharacter player, ICharacter enemy)
@@ -28,8 +28,9 @@ public class NanoSwarm : PlayerAbility
         }
         
         player.IsDefending = false;
+        UsesRemaining--;
         enemy.IsSwarmed = true;
         
-        EndTurn($"{MoveText}{Name}");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

@@ -24,8 +24,9 @@ public sealed class LaserBlast : PlayerAbility
         }
         
         player.IsDefending = false;
+        UsesRemaining--;
         enemy.TakeDamage(10);
 
-        EndTurn($"{MoveText}{Name}");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

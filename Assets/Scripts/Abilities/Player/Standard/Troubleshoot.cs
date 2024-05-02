@@ -29,8 +29,9 @@ public class Troubleshoot : PlayerAbility
         }
         
         player.IsDefending = false;
+        UsesRemaining--;
         player.CurrentHealth = Mathf.Min(player.MaxHealth, player.CurrentHealth + healAmount);
         
-        EndTurn($"{MoveText}{Name}");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

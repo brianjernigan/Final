@@ -24,8 +24,9 @@ public sealed class Hack : PlayerAbility
         }
         
         player.IsDefending = false;
+        UsesRemaining--;
         enemy.IsConfused = true;
 
-        EndTurn($"{MoveText}{Name}");
+        EndTurn($"{MoveText}{Name}!");
     }
 }

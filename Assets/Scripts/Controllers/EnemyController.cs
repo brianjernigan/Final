@@ -148,11 +148,11 @@ public class EnemyController : MonoBehaviour, ICharacter
             {
                 TakeDamage(nanoSwarm.DamagePerTurn);
             }
-
-            yield return new WaitForSeconds(1.25f);
             
             IsSwarmed = false;
         }
+
+        yield return new WaitForSeconds(1.25f);
         
         var randomNumber = Random.Range(0, Abilities.Count);
 

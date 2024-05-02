@@ -29,7 +29,7 @@ public sealed class Mydoom : PlayerAbility
         {
             player.IsCharging = false;
             enemy.TakeDamage((int)(enemy.CurrentHealth * 0.75f));
-            EndTurn($"{MoveText}{Name}");
+            EndTurn($"{MoveText}{Name}!");
         }
     }
 }
