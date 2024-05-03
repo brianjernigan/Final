@@ -14,7 +14,7 @@ public class NanoSwarm : PlayerAbility
         MaxUses = 10;
         UsesRemaining = MaxUses;
         IsUnlocked = false;
-        DamagePerTurn = 3;
+        DamagePerTurn = 5;
     }
 
     public override void Activate(ICharacter player, ICharacter enemy)

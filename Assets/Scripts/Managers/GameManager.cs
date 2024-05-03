@@ -75,8 +75,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     ChangeState(GameState.Won);
-                    // Handle Game Won
                 }
+                break;
+            case GameState.Won:
+                HandleMouseBehavior(state);
+                WinGame();
+                break;
+            case GameState.Lost:
+                HandleMouseBehavior(state);
+                LoadLevel(_currentLevelData.levelIndex);
                 break;
         }
     }
@@ -85,7 +92,7 @@ public class GameManager : MonoBehaviour
     {
         switch (currentState)
         {
-            case GameState.Dialog or GameState.Battle:
+            case GameState.Dialog or GameState.Battle or GameState.Won:
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true;
                 break;
@@ -93,16 +100,21 @@ public class GameManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = false;
                 break;
-            case GameState.NextLevel or GameState.Won or GameState.Lost:
+            case GameState.NextLevel or GameState.Lost:
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 break;
         }
     }
 
-    private void LoadLevel(int index)
+    private void WinGame()
     {
-        _currentLevelData = _levelData[index];
+        SceneManager.LoadScene("YouWin");
+    }
+
+    private void LoadLevel(int levelIndex)
+    {
+        _currentLevelData = _levelData[levelIndex];
         ResetPlayerPosition();
         OnLevelLoad?.Invoke(_currentLevelData);
     }

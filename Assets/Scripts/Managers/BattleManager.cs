@@ -12,6 +12,8 @@ public enum BattleState
 {
     PlayerTurn,
     EnemyTurn,
+    Won,
+    Lost
 }
 
 public enum BattleType
@@ -41,11 +43,14 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private TMP_Text _enemyHealthText;
     
     private BattleState _currentBattleState;
-    
-    public bool BattleIsFinished { get; set; }
 
-    public delegate void BattleFinishedDelegate(bool result);
-    public event BattleFinishedDelegate OnBattleFinished;
+    public BattleState CurrentBattleState
+    {
+        get => _currentBattleState;
+        set => _currentBattleState = value;
+    }
+    
+    public bool BattleIsFinished { get; private set; }
     
     public string PlayerMoveText { get; set; }
     public string EnemyMoveText { get; set; }
@@ -110,16 +115,16 @@ public class BattleManager : MonoBehaviour
         UpdateActionText("");
         _battlePanel.SetActive(true);
         InitializeAbilityPanel();
-        UpdateCharacterHealthText(_enemy);
+        UpdateHealthTexts();
         _fpc.enabled = false;
         BattleIsFinished = false;
     }
     
-    private void ExitBattleMode()
+    private void ExitBattleMode(bool result)
     {
         _battlePanel.SetActive(false);
         _fpc.enabled = true;
-        BattleIsFinished = true;
+        BattleIsFinished = result;
         GameManager.Instance.ChangeState(GameState.Exploration);
     }
 
@@ -210,14 +215,18 @@ public class BattleManager : MonoBehaviour
             
             if (_playerController.IsDead)
             {
-                // Lose
-                ExitBattleMode();
+                ExitBattleMode(false);
+                GameManager.Instance.ChangeState(GameState.Lost);
+                _currentBattleState = BattleState.Lost;
+                _playerController.IsDead = false;
+                _playerController.CurrentHealth = _playerController.MaxHealth;
+                _currentBattleState = BattleState.PlayerTurn;
             } 
         
             if (_enemyController.IsDead)
             {
-                // Win
-                ExitBattleMode();
+                ExitBattleMode(true);
+                _currentBattleState = BattleState.Won;
             }
         }
     }
@@ -247,7 +256,7 @@ public class BattleManager : MonoBehaviour
         _updateText.text = actionText;
     }
 
-    private void UpdateHealthTexts()
+    public void UpdateHealthTexts()
     {
         UpdateCharacterHealthText(_player);
         UpdateCharacterHealthText(_enemy);

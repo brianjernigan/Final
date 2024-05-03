@@ -55,6 +55,8 @@ public class EnemyController : MonoBehaviour, ICharacter
 
     private int LevelIndex => DetermineLevelIndex();
 
+    private int _swarmCounter = 2;
+    
     private Attack _attack;
     private Defend _defend;
     private Heal _heal;
@@ -114,13 +116,13 @@ public class EnemyController : MonoBehaviour, ICharacter
         Dictionary<(int, bool), Enemy> enemyConfiguration = new()
         {
             // Standard enemies
-            { (0, false), new Enemy("Beeboop",10, 3, 2) },
-            { (1, false), new Enemy("B2J2",15, 6, 4) },
-            { (2, false), new Enemy("BJ3396", 20,9, 6) },
+            { (0, false), new Enemy("Bender",10, 300, 2) },
+            { (1, false), new Enemy("Sonny",15, 6, 4) },
+            { (2, false), new Enemy("Data", 20,9, 6) },
             // Bosses
-            { (0, true), new Enemy("Awesome-O",30, 6, 4) },
-            { (1, true), new Enemy("HAL", 35, 12, 8) },
-            { (2, true), new Enemy("T-1000",40, 18, 12) }
+            { (0, true), new Enemy("Ultron",30, 6, 4) },
+            { (1, true), new Enemy("T-1000", 35, 12, 8) },
+            { (2, true), new Enemy("HAL 9000",40, 18, 12) }
         };
 
         if (!enemyConfiguration.TryGetValue((LevelIndex, _isBoss), out var currentEnemy)) return;
@@ -143,18 +145,29 @@ public class EnemyController : MonoBehaviour, ICharacter
     {
         if (IsSwarmed)
         {
+            yield return new WaitForSeconds(1.25f);
             BattleManager.Instance.UpdateActionText($"{Name} took damage from Nano Swarm!");
             if (_playerController.Abilities.Find(ability => ability.Name == "Nano Swarm") is NanoSwarm nanoSwarm)
             {
                 TakeDamage(nanoSwarm.DamagePerTurn);
+                BattleManager.Instance.UpdateHealthTexts();
+                _swarmCounter--;
             }
-            
-            IsSwarmed = false;
+
+            if (_swarmCounter <= 0)
+            {
+                IsSwarmed = false;
+                _swarmCounter = 2;
+            }
         }
 
         yield return new WaitForSeconds(1.25f);
-        
-        var randomNumber = Random.Range(0, Abilities.Count);
+
+        int randomNumber;
+        do
+        {
+            randomNumber = Random.Range(0, Abilities.Count);
+        } while (randomNumber == 2 && _enemyEntity.CurrentHealth == _enemyEntity.MaxHealth);
 
         Abilities[randomNumber].Activate(_enemyEntity, _playerEntity);
     }
@@ -177,18 +190,16 @@ public class EnemyController : MonoBehaviour, ICharacter
         }
         
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-        StartCoroutine(FlashDamageColor());
 
-        if (CurrentHealth <= 0)
+        if (CurrentHealth > 0)
+        {
+            StartCoroutine(FlashDamageColor());
+        }
+        else
         {
             IsDead = true;
             BattleManager.Instance.EnemyHasTakenTurn = true;
         }
-    }
-
-    public void ApplyStatusEffect()
-    {
-        throw new NotImplementedException();
     }
 
     #endregion

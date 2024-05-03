@@ -100,10 +100,5 @@ public class PlayerController : MonoBehaviour, ICharacter
         }
     }
 
-    public void ApplyStatusEffect()
-    {
-        throw new NotImplementedException();
-    }
-
     #endregion
 }

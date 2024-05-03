@@ -19,5 +19,10 @@ public class CoinController : MonoBehaviour
         {
             GameManager.Instance.ChangeState(GameState.NextLevel);
         }
+
+        if (gameObject.name == "Coin2" && other.CompareTag("Player"))
+        {
+            GameManager.Instance.ChangeState(GameState.Won);
+        }
     }
 }

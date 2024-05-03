@@ -17,5 +17,4 @@ public interface ICharacter
     bool IsCharging { get; set; }
     
     void TakeDamage(int amount);
-    void ApplyStatusEffect();
 }
