@@ -1,11 +1,3 @@
-//////////////////////////////////////////////
-//Assignment/Lab/Project: Blackjack
-//Name: Brian Jernigan
-//Section: SGD.213.2172
-//Instructor: Brian Sowers
-//Date: 03/18/2024
-/////////////////////////////////////////////
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

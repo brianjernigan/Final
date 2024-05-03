@@ -12,7 +12,7 @@ public sealed class Heal : EnemyAbility
         _healAmount = amount;
     }
 
-    public override void Activate(ICharacter enemy, ICharacter player)
+    internal override void Activate(ICharacter enemy, ICharacter player)
     {
         if (enemy.IsStunned)
         {

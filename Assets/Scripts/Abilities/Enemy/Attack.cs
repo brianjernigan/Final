@@ -11,8 +11,8 @@ public sealed class Attack : EnemyAbility
         Name = "Attack";
         _damageAmount = amount;
     }
-    
-    public override void Activate(ICharacter enemy, ICharacter player)
+
+    internal override void Activate(ICharacter enemy, ICharacter player)
     {
         if (enemy.IsStunned)
         {

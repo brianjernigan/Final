@@ -9,7 +9,7 @@ public sealed class Defend : EnemyAbility
         Name = "Defend";
     }
 
-    public override void Activate(ICharacter enemy, ICharacter player)
+    internal override void Activate(ICharacter enemy, ICharacter player)
     {
         if (enemy.IsStunned)
         {

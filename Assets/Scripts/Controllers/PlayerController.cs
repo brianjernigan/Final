@@ -4,24 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum AbilityType
-{
-    LaserBlast,
-    EnergyShield,
-    Hack,
-    Troubleshoot,
-    ElectroPulse,
-    NanoSwarm,
-    Incognito,
-    Mydoom
-}
-
 public class PlayerController : MonoBehaviour, ICharacter 
 {
     public static PlayerController Instance { get; private set; }
 
     public string Name { get; set; } = "Player";
-    public int MaxHealth { get; set; } = 100;
+    public int MaxHealth { get; set; } = 80;
     public int CurrentHealth { get; set; }
     public bool IsDead { get; set; }
     public bool IsDefending { get; set; }

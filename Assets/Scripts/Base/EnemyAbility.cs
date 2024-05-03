@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class EnemyAbility : Ability
 {
     protected const string MoveText = "Enemy used: ";
-    public abstract override void Activate(ICharacter enemy, ICharacter player);
+    internal abstract override void Activate(ICharacter enemy, ICharacter player);
 
     public override void EndTurn(string turnText)
     {

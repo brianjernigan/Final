@@ -7,6 +7,6 @@ public abstract class Ability
 {
     public virtual string Name { get; set; }
     public string Description { get; protected set; }
-    public abstract void Activate(ICharacter player, ICharacter target);
+    internal abstract void Activate(ICharacter player, ICharacter target);
     public abstract void EndTurn(string turnText);
 }

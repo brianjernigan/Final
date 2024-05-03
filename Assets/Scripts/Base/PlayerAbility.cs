@@ -10,7 +10,7 @@ public abstract class PlayerAbility : Ability
     protected const string MoveText = "Player used: ";
     protected const string ChargingText = "Player is charging Mydoom!";
 
-    public abstract override void Activate(ICharacter player, ICharacter enemy);
+    internal abstract override void Activate(ICharacter player, ICharacter enemy);
 
     public override void EndTurn(string turnText)
     {

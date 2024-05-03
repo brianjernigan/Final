@@ -17,7 +17,7 @@ public class NanoSwarm : PlayerAbility
         DamagePerTurn = 5;
     }
 
-    public override void Activate(ICharacter player, ICharacter enemy)
+    internal override void Activate(ICharacter player, ICharacter enemy)
     {
         if (UsesRemaining == 0) return;
 
