@@ -4,6 +4,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+public enum AbilityType
+{
+    LaserBlast,
+    EnergyShield,
+    Hack,
+    Troubleshoot,
+    ElectroPulse,
+    NanoSwarm,
+    Incognito,
+    Mydoom
+}
+
 public class PlayerController : MonoBehaviour, ICharacter 
 {
     public static PlayerController Instance { get; private set; }
@@ -19,7 +31,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     public bool IsHiding { get; set; }
     public bool IsCharging { get; set; }
 
-    public List<PlayerAbility> Abilities { get; set; } = new();
+    public List<PlayerAbility> Abilities { get; } = new();
 
     private readonly LaserBlast _laserBlast = new();
     private readonly EnergyShield _energyShield = new();

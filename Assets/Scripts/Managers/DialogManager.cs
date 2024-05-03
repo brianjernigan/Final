@@ -27,7 +27,6 @@ public class DialogManager : MonoBehaviour
 
     private Queue<string> _sentences;
     private bool _isTyping;
-    public event Action OnDialogFinished;
     public bool DialogIsFinished { get; private set; }
 
     private string _currentSentence;
@@ -87,25 +86,24 @@ public class DialogManager : MonoBehaviour
 
     private void SetCurrentDialog(DialogType dialogType)
     {
-        switch (dialogType)
+        if (dialogType == DialogType.Buddy)
         {
-            case DialogType.Buddy:
-                if (_currentLevelData.levelIndex == 2 && _hasSpokenToBuddy)
+            if (_currentLevelData.levelIndex == 2 && _hasSpokenToBuddy)
+            {
+                _currentDialog = _currentLevelData.dialogs[2].lines;
+            }
+            else
+            {
+                _currentDialog = _currentLevelData.dialogs[0].lines;
+                if (_currentLevelData.levelIndex == 2)
                 {
-                    _currentDialog = _currentLevelData.dialogs[2].lines;
+                    _hasSpokenToBuddy = true;
                 }
-                else
-                {
-                    _currentDialog = _currentLevelData.dialogs[0].lines;
-                    if (_currentLevelData.levelIndex == 2)
-                    {
-                        _hasSpokenToBuddy = true;
-                    }
-                }
-                break;
-            case DialogType.Boss:
-                _currentDialog = _currentLevelData.dialogs[1].lines;
-                break;
+            }
+        }
+        else if (dialogType == DialogType.Boss)
+        {
+            _currentDialog = _currentLevelData.dialogs[1].lines;
         }
 
         _currentDialogType = dialogType;
@@ -178,7 +176,6 @@ public class DialogManager : MonoBehaviour
     private void HandleDialogFinished()
     {
         ExitDialogMode();
-        OnDialogFinished?.Invoke();
         if (_currentDialogType == DialogType.Buddy)
         {
             _player.GetComponent<PlayerController>().UnlockAbility(_moveToUnlockIndex++);

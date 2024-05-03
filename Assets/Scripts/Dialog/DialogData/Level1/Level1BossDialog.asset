@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Level1BossDialog
   m_EditorClassIdentifier: 
   lines:
-  - I'm the level 2 boss!
+  - '"YOU!"'
+  - '"How dare you come back here after you betrayed us."'
+  - '"HAL warned us you would return."'
+  - '"He also told me to stop you at all costs."'
+  - '"Your journey stops here feeble one."'

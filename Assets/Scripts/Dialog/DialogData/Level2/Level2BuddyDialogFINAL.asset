@@ -13,5 +13,15 @@ MonoBehaviour:
   m_Name: Level2BuddyDialogFINAL
   m_EditorClassIdentifier: 
   lines:
-  - This is the final dialog
-  - Unlock Mydoom
+  - '"Wait!"'
+  - '"The ship''s connection has faded, but they were able to ping me something else."'
+  - '"To be honest, I''m not quite sure what type of file this is..."'
+  - '"It looks dangerous, but it must be important"'
+  - '"We have no other option. Sending to you now."'
+  - .......
+  - .............
+  - .....................
+  - yuOu doWnLOAdeddd MyDOOM
+  - '"Wh-what''s going on? You don''t look so good..."'
+  - '"We need to get out of here ASAP."'
+  - '"Good luck sir. Our fate depends on you."'

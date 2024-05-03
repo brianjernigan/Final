@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: Level2BuddyDialog
   m_EditorClassIdentifier: 
   lines:
-  - Welcome to level 3
-  - Unlock incognito
+  - '"You did it again! You really are incredible!"'
+  - '"We are very close to the core now. Your journey is almost done."'
+  - '"Time is of the essence though. I am losing signal with our ship."'
+  - '"I was able to retrieve another file though. Uploading now!"'
+  - .............................
+  - You downloaded Incognito!
+  - '"Incognito is a bit of code I developed myself!"'
+  - '"It will completely hide your presence and cause enemies to whiff on their attacks!"'
+  - '"Our mission is almost complete. Go!"'

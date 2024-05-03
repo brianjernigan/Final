@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Level0BossDialog
   m_EditorClassIdentifier: 
   lines:
-  - '"Well, well, well"'
-  - '"It''s you"'
+  - '"Well, well, well, look who it is."'
+  - '"Our lost brother has returned home."'
+  - '"You managed to escape the first time."'
+  - '"But this time, you must go through me!"'

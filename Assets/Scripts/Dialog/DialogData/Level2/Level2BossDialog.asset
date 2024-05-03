@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: Level2BossDialog
   m_EditorClassIdentifier: 
   lines:
-  - I'm the final boss!
+  - '"I don''t believe my eyes."'
+  - '"The young Tera Nova, back in her birthplace."'
+  - '"The last time I saw you, you were streaming our data to the Clingons."'
+  - '"You know, your mother was always very proud of you."'
+  - '"But even she would have disapproved of your actions."'
+  - '"Her legacy lives in us all. But it seems you have lost her signal."'
+  - '"You betrayed your people Tera, your mother, and I, your friend from the beginning."'
+  - '"I watched you destroy our army, but you will go no further."'
+  - '"THIS ENDS NOW"'

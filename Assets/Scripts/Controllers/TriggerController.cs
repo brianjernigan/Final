@@ -32,7 +32,7 @@ public class TriggerScript : MonoBehaviour
 
         if (triggerName.Contains(BossString))
         {
-            StartCoroutine(BossRoutine());
+            StartCoroutine(BossRoutine(triggerName));
         }
         
     }
@@ -51,8 +51,13 @@ public class TriggerScript : MonoBehaviour
         HandleEndOfInteraction();
     }
 
-    private IEnumerator BossRoutine()
+    private IEnumerator BossRoutine(string triggerName)
     {
+        if (triggerName.Contains("2"))
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().Name = "Tera Nova";
+        }
+        
         DialogManager.Instance.StartDialog(DialogType.Boss);
         yield return new WaitUntil(() => DialogManager.Instance.DialogIsFinished);
         BattleManager.Instance.StartBattle(BattleType.Boss);

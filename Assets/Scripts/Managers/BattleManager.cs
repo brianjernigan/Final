@@ -43,12 +43,6 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private TMP_Text _enemyHealthText;
     
     private BattleState _currentBattleState;
-
-    public BattleState CurrentBattleState
-    {
-        get => _currentBattleState;
-        set => _currentBattleState = value;
-    }
     
     public bool BattleIsFinished { get; private set; }
     
@@ -56,8 +50,6 @@ public class BattleManager : MonoBehaviour
     public string EnemyMoveText { get; set; }
     public bool PlayerHasTakenTurn { get; set; }
     public bool EnemyHasTakenTurn { get; set; }
-
-    private bool _buttonsInitialized;
 
     private LevelData _currentLevelData;
     
@@ -112,8 +104,6 @@ public class BattleManager : MonoBehaviour
     {
         GameManager.Instance.ChangeState(GameState.Battle);
         SetCurrentEnemy(battleType);
-        UpdateActionText("");
-        _battlePanel.SetActive(true);
         InitializeAbilityPanel();
         UpdateHealthTexts();
         _fpc.enabled = false;
@@ -130,6 +120,8 @@ public class BattleManager : MonoBehaviour
 
     private void InitializeAbilityPanel()
     {
+        UpdateActionText("");
+        _battlePanel.SetActive(true);
         ActivateUnlockedAbilityButtons();
         AddButtonListeners();
     }
@@ -142,46 +134,58 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < _abilityButtons.Length; i++)
+            for (var i = 0; i < _abilityButtons.Length; i++)
             {
-                var buttonIsActive = _playerController.Abilities[i].IsUnlocked &&
-                                     _playerController.Abilities[i].UsesRemaining > 0;
-                _abilityButtons[i].SetActive(buttonIsActive);
-                _abilityButtons[i].GetComponent<Button>().interactable = buttonIsActive;
-                _abilityButtons[i].GetComponentInChildren<TMP_Text>().text = _playerController.Abilities[i].ToString();
+                var ability = _playerController.Abilities[i];
+                var abilityButton = _abilityButtons[i];
+                
+                var buttonIsActive = ability.IsUnlocked &&
+                                     ability.UsesRemaining > 0;
+                
+                abilityButton.SetActive(buttonIsActive);
+                abilityButton.GetComponent<Button>().interactable = buttonIsActive;
+                SetButtonText(abilityButton, i);
             }
         }
     }
 
     private void HandleChargingMydoom()
     {
-        for (int i = 0; i < _abilityButtons.Length; i++)
+        for (var i = 0; i < _abilityButtons.Length; i++)
         {
-            _abilityButtons[i].SetActive(i == 7);
+            var abilityButton = _abilityButtons[i];
+            
+            abilityButton.SetActive(i == 7);
             if (i == 7)
             {
-                _abilityButtons[i].GetComponent<Button>().interactable = true;
-                _abilityButtons[i].GetComponentInChildren<TMP_Text>().text = "Unleash Mydoom";
+                abilityButton.GetComponent<Button>().interactable = true;
+                abilityButton.GetComponentInChildren<TMP_Text>().text = "Unleash Mydoom";
             }
         }
     }
 
     private void AddButtonListeners()
     {
-        for (int i = 0; i < _abilityButtons.Length; i++)
+        for (var i = 0; i < _abilityButtons.Length; i++)
         {
             var buttonIndex = i;
-            var button = _abilityButtons[buttonIndex];
-            button.GetComponent<Button>().onClick.RemoveAllListeners();
-            button.GetComponent<Button>().onClick.AddListener(() => OnAbilityButtonPressed(button, buttonIndex));
+            var abilityButton = _abilityButtons[buttonIndex];
+            
+            abilityButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            abilityButton.GetComponent<Button>().onClick.AddListener(() => OnAbilityButtonPressed(abilityButton, buttonIndex));
         }
     }
 
     private void OnAbilityButtonPressed(GameObject button, int buttonIndex)
     {
         _playerController.Abilities[buttonIndex].Activate(_playerController, _enemyController);
-        button.GetComponentInChildren<TMP_Text>().text = _playerController.Abilities[buttonIndex].ToString();
+        SetButtonText(button, buttonIndex);
         DeactivateButtons();
+    }
+
+    private void SetButtonText(GameObject button, int buttonIndex)
+    {
+        button.GetComponentInChildren<TMP_Text>().text = _playerController.Abilities[buttonIndex].ToString();
     }
 
     private void DeactivateButtons()
@@ -218,9 +222,7 @@ public class BattleManager : MonoBehaviour
                 ExitBattleMode(false);
                 GameManager.Instance.ChangeState(GameState.Lost);
                 _currentBattleState = BattleState.Lost;
-                _playerController.IsDead = false;
-                _playerController.CurrentHealth = _playerController.MaxHealth;
-                _currentBattleState = BattleState.PlayerTurn;
+                ResetPlayer();
             } 
         
             if (_enemyController.IsDead)
@@ -229,6 +231,12 @@ public class BattleManager : MonoBehaviour
                 _currentBattleState = BattleState.Won;
             }
         }
+    }
+
+    private void ResetPlayer()
+    {
+        _playerController.IsDead = false;
+        _playerController.CurrentHealth = _playerController.MaxHealth;
     }
 
     private IEnumerator PlayerTurnRoutine()
@@ -264,17 +272,9 @@ public class BattleManager : MonoBehaviour
 
     private void UpdateCharacterHealthText(GameObject affected)
     {
-        TMP_Text textObject;
-        
-        if (affected == _player)
-        {
-            textObject = _playerHealthText;
-            textObject.text = $"{_playerController.Name} Health: {_playerController.CurrentHealth}";
-        } 
-        else if (affected == _enemy)
-        {
-            textObject = _enemyHealthText;
-            textObject.text = $"{_enemyController.Name} Health: {_enemyController.CurrentHealth}";
-        }
+        var characterTextObject = affected == _player ? _playerHealthText : _enemyHealthText;
+        var characterName = affected == _player ? _playerController.Name : _enemyController.Name;
+        var characterCurrentHealth = affected == _player ? _playerController.CurrentHealth : _enemyController.CurrentHealth;
+        characterTextObject.text = $"{characterName} Health: {characterCurrentHealth}";
     }
 }

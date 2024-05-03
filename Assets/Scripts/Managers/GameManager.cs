@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject _player;
     public GameState CurrentState { get; set; }
+    
     [SerializeField] private LevelData[] _levelData;
     public delegate void LevelLoadDelegate(LevelData data);
     public event LevelLoadDelegate OnLevelLoad;

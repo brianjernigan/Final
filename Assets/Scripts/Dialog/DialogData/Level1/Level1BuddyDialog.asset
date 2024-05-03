@@ -13,5 +13,13 @@ MonoBehaviour:
   m_Name: Level1BuddyDialog
   m_EditorClassIdentifier: 
   lines:
-  - Welcome to Level 2
-  - Unlock Nano Swarm
+  - '"Whew! That was a close call."'
+  - '"Thank you for taking care of Ultron."'
+  - '"I know how much he meant to you..."'
+  - '"Oh! I almost forgot. I was able to retrieve another file from homebase."'
+  - '"Here, I''ll upload it for you."'
+  - ...............................
+  - You downloaded Nano Swarm!
+  - '"Nano Swarm releases thousands of tiny nanobots that swarm the enemy and deal
+    damage over time."'
+  - '"You must hurry, it looks like we''ve got visitors."'
