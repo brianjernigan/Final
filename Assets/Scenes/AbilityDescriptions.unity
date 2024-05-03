@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 305663009}
   - component: {fileID: 305663008}
   m_Layer: 5
-  m_Name: InstructionsCanvas
+  m_Name: AbilityDescriptionsCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.51, b: 0.801, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -261,7 +261,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.239, g: 0.823, b: 0.525, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -958,7 +958,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.239, g: 0.823, b: 0.525, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1043,7 +1043,7 @@ GameObject:
   - component: {fileID: 1252771724}
   - component: {fileID: 1252771723}
   m_Layer: 5
-  m_Name: InstructionsText
+  m_Name: AbilityDescriptionsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1065,8 +1065,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.5189, y: -39}
-  m_SizeDelta: {x: 1768.8036, y: 611.5181}
+  m_AnchoredPosition: {x: 9.77219, y: -49.641254}
+  m_SizeDelta: {x: 2021.6063, y: 509.6336}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1252771723
 MonoBehaviour:
@@ -1088,18 +1088,28 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: In this game, you will be playing a simplified version of the popular casino
-    game, Blackjack. Here, the computer is the house and it will be competing against
-    you, the player. At the beginning of each round, all participants are dealt two
-    cards. The players can see both of their cards, but one of the House's cards
-    will be hidden until the end of the round. The player will be given the chance
-    to take additional cards in an attempt to get as close to 21 as possible. If
-    a player goes over 21, they will "bust," and lose the game. Once the player is
-    done "hitting," the House will reveal their card and will take additional cards
-    if its total is less than 16. If the House busts, and the player has not, the
-    player wins. If neither have busted, then their hands will be compared and the
-    closer to 21 will win the round. A score of 21 is a Blackjack and will always
-    win the round, unless the dealer also has blackjack.
+  m_text: 'Laser Blast: Standard attack. Deal 10 damage (20 uses)
+
+    Energy Shield:
+    Standard defend. Take half damage (20 uses)
+
+    Hack: Confuse enemy. Enemy will
+    either hurt itself or waste a turn (10 uses)
+
+    Troubleshoot: Standard heal.
+    Heal 5 health points (15 uses)
+
+    Electro Pulse: Deal 5 damage to the enemy
+    and stun them causing them to miss their next turn (15 uses)
+
+    Nano Swarm:
+    Deal 5 damage over 2 turns. Ignores enemy defenses (10 uses)
+
+    Incognito:
+    Hide from the enemy causing the enemy to miss their attack (10 uses)
+
+    Mydoom:
+    Deal massive damage to the enemy. Takes 1 turn to charge (5 uses)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1189,7 +1199,7 @@ GameObject:
   - component: {fileID: 1274648077}
   - component: {fileID: 1274648076}
   m_Layer: 5
-  m_Name: InstructionsCanvas
+  m_Name: AbilityDescriptionsCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1338,7 +1348,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.239, g: 0.823, b: 0.525, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1505,7 +1515,7 @@ GameObject:
   - component: {fileID: 2033414944}
   - component: {fileID: 2033414943}
   m_Layer: 5
-  m_Name: InstructionsWelcome
+  m_Name: AbilityDescriptionsWelcome
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1550,7 +1560,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Instructions
+  m_text: Ability Descriptions
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

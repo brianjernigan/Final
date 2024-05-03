@@ -9,7 +9,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class InstructionsController : MonoBehaviour
+public class AbilityDescriptionsController : MonoBehaviour
 {
     public void OnClickPlayButton()
     {

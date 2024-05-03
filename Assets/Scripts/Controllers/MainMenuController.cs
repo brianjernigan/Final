@@ -16,7 +16,7 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("Level0");
     }
 
-    public void OnClickInstructionsButton()
+    public void OnClickAbilityDescriptionsButton()
     {
         SceneManager.LoadScene("Instructions");
     }

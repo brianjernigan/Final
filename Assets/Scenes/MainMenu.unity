@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.51, b: 0.801, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -261,7 +261,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.239, g: 0.823, b: 0.525, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -685,15 +685,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2022 The goal of blackjack is to beat the house\u2019s hand without
-    going over 21.\r\n\u2022 Face cards are worth 10 points.\r\n\u2022 Aces are worth
-    1 or 11 points depending on which value helps the hand most.\r\n\u2022 Cards
-    2 through 10 count at face value (2 counts as 2, 5 counts as 5, etc.)\r\n\u2022
-    Each player starts with 2 cards, one of the house\u2019s cards remains hidden
-    until the end.\r\n\u2022 To Hit is to ask for another card.\r\n\u2022 If anyone
-    goes over 21, they bust, and the house wins regardless of the house\u2019s hand.\r\n\u2022
-    If a player is dealt 21 from the start (Ace and 10), they have a blackjack.\r\n\u2022
-    House will hit until its total is 17 or higher.\r"
+  m_text: 'In this game, you control a computer on a journey to retrieve the Neon
+    Nexus, a massive file containing powerful information. Use your WASD keys to
+    explore the world and your mouse to look around. During battle, use your mouse
+    to tactfully select and activate an ability. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -962,7 +957,7 @@ GameObject:
   - component: {fileID: 1018243781}
   - component: {fileID: 1018243780}
   m_Layer: 5
-  m_Name: InstructionsButtonText
+  m_Name: AbilityDescriptionsButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1007,7 +1002,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Instructions
+  m_text: Ability Descriptions
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1097,7 +1092,7 @@ GameObject:
   - component: {fileID: 1185261736}
   - component: {fileID: 1185261735}
   m_Layer: 5
-  m_Name: InstructionsButton
+  m_Name: AbilityDescriptionsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1144,7 +1139,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.239, g: 0.823, b: 0.525, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1169,7 +1164,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 810775095}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: OnClickInstructionsButton
+        m_MethodName: OnClickAbilityDescriptionsButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1379,7 +1374,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.239, g: 0.823, b: 0.525, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1547,7 +1542,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to Brian's Blackjack!
+  m_text: 'Neon Nexus
+
+    A Game by Brian Jernigan'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
