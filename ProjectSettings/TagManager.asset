@@ -19,6 +19,7 @@ TagManager:
   - Coin
   - EnemyHealthText
   - GameCanvas
+  - TransitionPanel
   layers:
   - Default
   - TransparentFX

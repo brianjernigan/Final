@@ -23,7 +23,7 @@ public class DialogManager : MonoBehaviour
 
     [Header("Player")] 
     [SerializeField] private GameObject _player;
-    private FirstPersonController _fpc;
+    [SerializeField] private FirstPersonController _fpc;
 
     private Queue<string> _sentences;
     private bool _isTyping;
@@ -71,7 +71,6 @@ public class DialogManager : MonoBehaviour
     private void InitializeDialog()
     {
         _sentences = new Queue<string>();
-        _fpc = _player.GetComponent<FirstPersonController>();
         _continueButton.onClick.RemoveListener(DisplayNextSentence);
         _continueButton.onClick.AddListener(DisplayNextSentence);
     }
