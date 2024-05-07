@@ -102,11 +102,11 @@ public class EnemyController : MonoBehaviour, ICharacter
         _originalMat = _meshRenderer.material;
         _playerController = _player.GetComponent<PlayerController>();
         _playerEntity = _player.GetComponent<ICharacter>();
+        _enemyEntity = GetComponent<ICharacter>();
     }
     
     private void InitializeEnemy()
     {
-        _enemyEntity = GetComponent<ICharacter>();
         _isBoss = IsEnemyBoss();
 
         ConfigureEnemy();
@@ -124,7 +124,7 @@ public class EnemyController : MonoBehaviour, ICharacter
         Dictionary<(int, bool), Enemy> enemyConfiguration = new()
         {
             // Standard enemies
-            { (0, false), new Enemy("Bender",10, 300, 2) },
+            { (0, false), new Enemy("Bender",10, 3, 2) },
             { (1, false), new Enemy("Sonny",15, 6, 4) },
             { (2, false), new Enemy("Data", 20,9, 6) },
             // Bosses

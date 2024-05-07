@@ -115,14 +115,16 @@ public class BattleManager : MonoBehaviour
         InitializeAbilityPanel();
         UpdateHealthTexts();
         _fpc.enabled = false;
-        BattleIsFinished = false;
+        EnemyHasTakenTurn = false;
+        PlayerHasTakenTurn = false;
     }
     
-    private void ExitBattleMode(bool result)
+    private void ExitBattleMode()
     {
+        EnemyHasTakenTurn = true;
+        PlayerHasTakenTurn = true;
         _battlePanel.SetActive(false);
         _fpc.enabled = true;
-        BattleIsFinished = result;
         GameManager.Instance.ChangeState(GameState.Exploration);
     }
 
@@ -229,6 +231,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleRoutine()
     {
+        BattleIsFinished = false;
         while (!_playerController.IsDead && !_enemyController.IsDead)
         {
             switch (_currentBattleState)
@@ -240,21 +243,23 @@ public class BattleManager : MonoBehaviour
                     yield return StartCoroutine(EnemyTurnRoutine());
                     break;
             }
-            
-            if (_playerController.IsDead)
-            {
-                ExitBattleMode(false);
-                GameManager.Instance.ChangeState(GameState.Lost);
-                _currentBattleState = BattleState.Lost;
-                ResetPlayer();
-            } 
-        
-            if (_enemyController.IsDead)
-            {
-                ExitBattleMode(true);
-                _currentBattleState = BattleState.Won;
-            }
         }
+        
+        if (_playerController.IsDead)
+        {
+            ExitBattleMode();
+            GameManager.Instance.ChangeState(GameState.Lost);
+            _currentBattleState = BattleState.Lost;
+            ResetPlayer();
+        } 
+        
+        if (_enemyController.IsDead)
+        {
+            ExitBattleMode();
+            _currentBattleState = BattleState.Won;
+        }
+        
+        BattleIsFinished = true;
     }
 
     private void ResetPlayer()

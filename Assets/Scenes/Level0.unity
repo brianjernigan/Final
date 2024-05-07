@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45067048, g: 0.4987331, b: 0.564715, a: 1}
+  m_IndirectSpecularColor: {r: 0.45067096, g: 0.49873382, b: 0.5647156, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -854,8 +854,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectsToDeactivate:
-  - {fileID: 211454134}
   - {fileID: 1492547252288204}
+  - {fileID: 211454134}
   _objectsToActivate:
   - {fileID: 2066731911}
 --- !u!4 &246850651 stripped
@@ -15813,10 +15813,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectsToDeactivate:
-  - {fileID: 566749583}
   - {fileID: 1481343943160523}
   - {fileID: 1290514117}
   - {fileID: 1011479891}
+  - {fileID: 566749583}
   _objectsToActivate: []
 --- !u!1 &576778971
 GameObject:
@@ -16824,8 +16824,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectsToDeactivate:
-  - {fileID: 821195008}
   - {fileID: 1643763412251001}
+  - {fileID: 821195008}
   _objectsToActivate:
   - {fileID: 1011479891}
 --- !u!1001 &912258180

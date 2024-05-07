@@ -123,6 +123,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift))
+        {
+            UnlockMouse();
+        }
+    }
+
+    private void UnlockMouse()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     private void WinGame()
     {
         SceneManager.LoadScene("YouWin");
