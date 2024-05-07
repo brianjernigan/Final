@@ -1,3 +1,11 @@
+//////////////////////////////////////////////
+//Assignment/Lab/Project: Final
+//Name: Brian Jernigan
+//Section: SGD.213.2172
+//Instructor: Brian Sowers
+//Date: 05/06/2024
+/////////////////////////////////////////////
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -124,6 +132,22 @@ public class BattleManager : MonoBehaviour
         _battlePanel.SetActive(true);
         ActivateUnlockedAbilityButtons();
         AddButtonListeners();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.U) && Input.GetKey(KeyCode.A))
+        {
+            UnlockAllAbilities();
+        }
+    }
+
+    private void UnlockAllAbilities()
+    {
+        foreach (var ability in _playerController.Abilities)
+        {
+            ability.IsUnlocked = true;
+        }
     }
 
     private void ActivateUnlockedAbilityButtons()

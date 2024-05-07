@@ -1,3 +1,11 @@
+//////////////////////////////////////////////
+//Assignment/Lab/Project: Final
+//Name: Brian Jernigan
+//Section: SGD.213.2172
+//Instructor: Brian Sowers
+//Date: 05/06/2024
+/////////////////////////////////////////////
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
